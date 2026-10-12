@@ -5,334 +5,404 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>اتم‌ساز | Atom Builder</title>
 <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;600;800&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/peerjs@1.5.4/dist/peerjs.min.js"></script>
 <style>
-:root{--bg:#0a0e2a;--card:rgba(255,255,255,.07);--line:rgba(255,255,255,.15);--tx:#eef1ff;--mut:#a9b2d9;--p:#ff5d6c;--n:#dfe5ff;--e:#3ec5ff;--v:#8b6dff;--ok:#38d996}
+:root{--card:rgba(255,255,255,.07);--line:rgba(255,255,255,.16);--tx:#eef1ff;--mut:#a9b2d9;--p:#ff5d6c;--e:#3ec5ff;--v:#8b6dff;--ok:#38d996}
 *{box-sizing:border-box;margin:0}
-body{font-family:Vazirmatn,Tahoma,sans-serif;background:radial-gradient(circle at 15% 10%,#2c1a70,transparent 50%),radial-gradient(circle at 85% 85%,#0b4a7a,transparent 50%),var(--bg);color:var(--tx);min-height:100vh;line-height:1.9}
+body{font-family:Vazirmatn,Tahoma,sans-serif;color:var(--tx);min-height:100vh;line-height:1.9;background:radial-gradient(circle at 15% 8%,#2c1a70,transparent 50%),radial-gradient(circle at 88% 90%,#0b4a7a,transparent 50%),#0a0e2a}
+body.noir{--v:#e63950;--e:#ff7b8a;background:radial-gradient(ellipse at 50% -10%,#3a0a18,transparent 60%),#04050a}
+body.noir::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:30;background:repeating-linear-gradient(0deg,rgba(0,0,0,.16) 0 2px,transparent 2px 4px),radial-gradient(circle,transparent 55%,rgba(0,0,0,.7))}
+body.arena{--v:#ffb703;--e:#ff4fa3;background:radial-gradient(circle at 15% 0,#7a1fa2,transparent 55%),radial-gradient(circle at 90% 95%,rgba(255,79,163,.55),transparent 45%),#1a0a3a}
+#fx{position:fixed;inset:0;z-index:-1;pointer-events:none}#cf{position:fixed;inset:0;z-index:45;pointer-events:none}
 button{font:inherit;color:inherit;cursor:pointer;border:0;background:none}
-nav{display:flex;gap:6px;flex-wrap:wrap;justify-content:center;padding:10px;position:sticky;top:0;z-index:5;background:rgba(10,14,42,.85);backdrop-filter:blur(10px)}
-.nb{padding:4px 14px;border-radius:99px}.nb.on,.nb:hover{background:var(--card)}
-.view{display:none;max-width:1100px;margin:auto;padding:20px 14px}.view.on{display:block}
-.glass{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:16px;backdrop-filter:blur(8px);box-shadow:0 8px 30px rgba(0,0,0,.25)}
-.btn{background:linear-gradient(135deg,var(--v),#3b82f6);padding:10px 26px;border-radius:14px;font-weight:800;font-size:1.05rem;box-shadow:0 6px 20px rgba(100,90,255,.4);transition:transform .15s}
-.btn:hover{transform:translateY(-2px)}.btn.alt{background:var(--card);border:1px solid var(--line);box-shadow:none}
 [hidden]{display:none!important}
-#home{text-align:center;padding-top:9vh;position:relative;overflow:hidden;min-height:78vh}
-#bg{position:absolute;inset:0;margin:auto;width:min(120vw,720px);opacity:.3;z-index:0}
-#home>*:not(#bg){position:relative;z-index:1}
-h1{font-size:clamp(2.6rem,9vw,4.5rem);font-weight:800;text-shadow:0 0 30px var(--v)}
-.sub{font-size:1.5rem;color:var(--e);font-weight:600}
-.dsc{color:var(--mut);margin:10px auto 26px;max-width:480px}
-.btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
-h2{margin-bottom:14px}
-.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;margin-bottom:14px}
-.cards h3{margin-bottom:4px}.cards li{margin-right:18px;color:var(--mut)}
-.formula{text-align:center;font-size:clamp(1.2rem,4vw,1.8rem);font-weight:800;padding:18px;margin:14px 0;border:2px dashed var(--v);border-radius:18px;background:rgba(139,109,255,.15)}
-.bar{display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;font-weight:600;margin-bottom:12px}
-#mis{margin-bottom:12px;font-size:1.1rem}
-.gm{display:grid;grid-template-columns:230px 1fr 230px;grid-template-areas:"b s i";gap:12px;align-items:start}
-#build{grid-area:b}#stage{grid-area:s;padding:6px}#info{grid-area:i}
-#quiz{grid-column:1/-1;display:none}
-.quizmode #build,.quizmode #stage,.quizmode #info{display:none}.quizmode #quiz{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}
-#at{width:100%;max-height:480px;display:block}
-.orb{transform-origin:170px 170px;animation:spin linear infinite}
-@keyframes spin{to{transform:rotate(360deg)}}
-.glow{animation:glow 1.2s}
-@keyframes glow{40%{filter:drop-shadow(0 0 30px #ffd84d) brightness(1.5);transform:scale(1.06)}}
-.row{display:flex;align-items:center;justify-content:space-between;gap:6px;margin:10px 0}
-.chip{width:46px;height:46px;border-radius:50%;display:grid;place-items:center;font-weight:800;font-size:1.3rem;cursor:grab;touch-action:none;user-select:none;box-shadow:0 0 14px currentColor}
-.chip.p{background:var(--p);color:var(--p)}.chip.n{background:var(--n);color:var(--n)}.chip.e{background:var(--e);color:var(--e)}
-.chip span{color:#111}
+nav{display:flex;gap:6px;flex-wrap:wrap;justify-content:center;padding:8px;position:sticky;top:0;z-index:5;background:rgba(10,14,42,.8);backdrop-filter:blur(10px)}
+.nb{padding:2px 12px;border-radius:99px;font-size:.9rem}.nb:hover{background:var(--card)}
+.v{display:none;max-width:1100px;margin:auto;padding:18px 14px}.v.on{display:block;animation:vi .5s}@keyframes vi{from{opacity:0;transform:translateY(14px)}}
+.glass{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:14px;backdrop-filter:blur(8px);box-shadow:0 8px 30px rgba(0,0,0,.28)}
+.btn{position:relative;overflow:hidden;background:linear-gradient(135deg,var(--v),#3b82f6);padding:9px 24px;border-radius:14px;font-weight:800;box-shadow:0 6px 20px rgba(100,90,255,.4);transition:.15s}
+.btn:hover{transform:translateY(-2px)}.btn.alt{background:var(--card);border:1px solid var(--line);box-shadow:none}
+.btn::after{content:'';position:absolute;top:0;left:-60%;width:40%;height:100%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.35),transparent);transform:skewX(-20deg);animation:sw 3s infinite}@keyframes sw{to{left:130%}}
+.btns{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:12px}
+h1{font-size:clamp(2.6rem,9vw,4.2rem);font-weight:800;text-align:center;background:linear-gradient(90deg,#fff,var(--v),var(--e),#fff);background-size:300%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:sh 6s linear infinite}@keyframes sh{to{background-position:300%}}
+.sub{text-align:center;color:var(--e);font-weight:600;font-size:1.3rem}
+.hero{width:190px;height:190px;margin:8px auto;position:relative;transform-style:preserve-3d;perspective:600px}
+.core{position:absolute;left:50%;top:50%;width:34px;height:34px;margin:-17px;border-radius:50%;background:radial-gradient(circle at 30% 30%,#fff,var(--p) 45%,#400);box-shadow:0 0 40px var(--p);animation:pl 2s infinite}
+@keyframes pl{50%{transform:scale(1.2)}}
+.or{position:absolute;inset:0;border:1px solid rgba(255,255,255,.3);border-radius:50%;transform:rotateX(68deg) rotateZ(var(--z))}
+.sp{position:absolute;inset:0;animation:rz var(--d) linear infinite}@keyframes rz{to{transform:rotate(360deg)}}
+.sp u{position:absolute;top:-6px;left:50%;width:12px;height:12px;margin-left:-6px;border-radius:50%;background:var(--e);box-shadow:0 0 14px var(--e)}
+.modes{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px;margin:14px 0}
+.mc{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:16px 8px;display:grid;gap:2px;text-align:center;transition:border-color .2s;transform:perspective(600px) rotateX(var(--tx,0deg)) rotateY(var(--ty,0deg));box-shadow:0 8px 24px rgba(0,0,0,.3)}
+.mc:hover{border-color:var(--v);box-shadow:0 0 28px var(--v)}.mc i{font-size:2.4rem;font-style:normal}.mc small{color:var(--mut)}
+#md{display:flex;gap:8px;flex-wrap:wrap;justify-content:center}.md{padding:2px 12px;border-radius:99px;background:var(--card);opacity:.35;font-size:.85rem}.md.on{opacity:1;box-shadow:0 0 14px #ffd84d}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:12px;margin-bottom:12px}
+.formula{text-align:center;font-size:clamp(1.2rem,4vw,1.7rem);font-weight:800;padding:16px;margin:12px 0;border:2px dashed var(--v);border-radius:18px;background:rgba(139,109,255,.14)}
+.bar{display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;font-weight:600;margin-bottom:10px}
+.gm{display:grid;grid-template-columns:220px 1fr 220px;gap:12px;align-items:start;margin-top:10px}
+#stage{position:relative;height:360px;overflow:hidden;touch-action:none;cursor:grab;padding:0;background:radial-gradient(circle,rgba(139,109,255,.25),transparent 65%),linear-gradient(rgba(255,255,255,.04) 1px,transparent 1px) 0 0/28px 28px,linear-gradient(90deg,rgba(255,255,255,.04) 1px,transparent 1px) 0 0/28px 28px,var(--card)}
+#atm{position:absolute;left:50%;top:50%;width:340px;height:340px;margin:-170px}
+#rg{position:absolute;inset:0;width:100%;height:100%}
+.p3{position:absolute;left:50%;top:50%;border-radius:50%;will-change:transform}
+.halo{position:absolute;left:50%;top:50%;border-radius:50%;background:radial-gradient(circle,rgba(255,150,170,.55),transparent 70%);animation:pl 2.5s infinite;pointer-events:none}
+.row{display:flex;align-items:center;justify-content:space-between;gap:6px;margin:8px 0}
+.chip{width:44px;height:44px;border-radius:50%;display:grid;place-items:center;font-weight:800;cursor:grab;touch-action:none;user-select:none;color:#111}
+.chip.p{background:radial-gradient(circle at 30% 30%,#fff9,var(--p) 45%);box-shadow:0 0 14px var(--p)}.chip.n{background:radial-gradient(circle at 30% 30%,#fff,#aab);box-shadow:0 0 14px #fff}.chip.e{background:radial-gradient(circle at 30% 30%,#fff9,var(--e) 45%);box-shadow:0 0 14px var(--e)}
 .ghost{position:fixed;pointer-events:none;z-index:50;opacity:.85}
-.cnt{display:flex;align-items:center;gap:6px}
-.cb{width:34px;height:34px;border-radius:50%;background:var(--card);border:1px solid var(--line);font-size:1.2rem}
-.cnt b{min-width:28px;text-align:center;font-size:1.2rem}
-.tip{color:var(--mut);font-size:.85rem;margin-top:8px}
-#info div{display:flex;justify-content:space-between;border-bottom:1px solid var(--line);padding:3px 0}
-#info b{color:var(--e)}
-.opt{border:2px solid var(--line);border-radius:16px;padding:8px;text-align:center;background:var(--card)}
-.opt.on{border-color:var(--ok);background:rgba(56,217,150,.15)}
-.opt svg{width:100%}
-#msg{margin:12px 0;min-height:56px}#msg.ok{border-color:var(--ok)}#msg.bad{border-color:var(--p)}
+.cnt{display:flex;align-items:center;gap:6px}.cb{width:32px;height:32px;border-radius:50%;background:var(--card);border:1px solid var(--line);font-size:1.2rem}.cnt b{min-width:26px;text-align:center}
+.tip{color:var(--mut);font-size:.85rem}
+#info div{display:flex;justify-content:space-between;border-bottom:1px solid var(--line)}#info b{color:var(--e)}
+#msg{margin:10px 0;min-height:52px}#msg.ok{border-color:var(--ok)}#msg.bad{border-color:var(--p)}
 .act{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
-.medals{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px}
-.medal{text-align:center}.medal i{font-size:3rem;font-style:normal;display:block}.medal.lock{opacity:.4;filter:grayscale(1)}
-footer{text-align:center;color:var(--mut);padding:30px 14px}
+.pg{display:grid;grid-template-columns:repeat(auto-fill,minmax(54px,1fr));gap:8px;margin-top:12px}
+.pb{height:54px;border-radius:14px;background:var(--card);border:2px solid var(--line);font-weight:800;transition:.2s}
+.pb.t1{border-color:#38d996}.pb.t2{border-color:#ffd84d}.pb.t3{border-color:#ff9f43}.pb.t4{border-color:#ff5d6c}
+.pb.dn{background:rgba(56,217,150,.22)}.pb:not(:disabled):hover{transform:scale(1.1)}.pb:disabled{opacity:.3}
+input{font:inherit;color:inherit;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:8px 12px;width:100%;margin:6px 0}
+.ob{padding:16px;border-radius:16px;font-weight:600;background:var(--card);border:2px solid var(--line);transition:.2s}
+.ob:hover{transform:scale(1.03);border-color:var(--v)}.ob.good{background:rgba(56,217,150,.35);border-color:var(--ok)}.ob.bad{background:rgba(255,93,108,.35);border-color:var(--p)}
+#qo{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}
+#qq{font-size:1.25rem;text-align:center;min-height:100px;display:grid;place-items:center}
+#tb{height:10px;border-radius:9px;background:var(--card);overflow:hidden;margin-bottom:10px}
+#tbi{display:block;height:100%;background:linear-gradient(90deg,#ff5d6c,#ffd84d,#38d996);transform-origin:right}
+#brd{margin-bottom:10px;display:grid;gap:2px}#brd b{color:var(--e)}
+#rl div{padding:2px 0}#rcode{font-size:2rem;color:var(--e)}
+.ov{position:fixed;inset:0;background:rgba(5,8,30,.85);display:none;place-items:center;z-index:40;text-align:center;padding:20px}.ov.on{display:grid}
+.ov .glass{min-width:min(90vw,380px);background:#161b50}body.noir .ov .glass{background:#14070d;border-color:#e63950}
+.av{font-size:4rem;animation:fl 3s infinite}@keyframes fl{50%{transform:translateY(-5px)}}#dtx{min-height:90px;margin:8px 0;text-align:right}
 #toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#1d2260;border:1px solid var(--v);padding:8px 18px;border-radius:14px;z-index:60;display:none}
-.ov{position:fixed;inset:0;background:rgba(5,8,30,.85);display:none;place-items:center;z-index:40;text-align:center;padding:20px}
-.ov.on{display:grid}.ov .glass{max-width:420px;background:#161b50}
-@media(max-width:800px){.gm{grid-template-columns:1fr;grid-template-areas:"s" "b" "i"}}
-@media(prefers-reduced-motion){*{animation:none!important}}
-
-#fx{position:fixed;inset:0;z-index:-1;pointer-events:none}
-#cf{position:fixed;inset:0;z-index:45;pointer-events:none}
-h1{background:linear-gradient(90deg,#fff,#8b6dff,#3ec5ff,#fff);background-size:300%;-webkit-background-clip:text;background-clip:text;color:transparent;text-shadow:none;filter:drop-shadow(0 0 18px #8b6dff);animation:sh 6s linear infinite,fl 4s ease-in-out infinite}
-@keyframes sh{to{background-position:300%}}
-@keyframes fl{50%{transform:translateY(-5px)}}
-.btn{position:relative;overflow:hidden}
-.btn::after{content:'';position:absolute;top:0;left:-60%;width:40%;height:100%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.4),transparent);transform:skewX(-20deg);animation:sw 3s infinite}
-@keyframes sw{to{left:130%}}
-.glass{transition:border-color .3s,transform .3s}.glass:hover{border-color:rgba(139,109,255,.6)}
-.view.on{animation:vi .5s}@keyframes vi{from{opacity:0;transform:translateY(14px)}}
-#bg{animation:none;transition:transform .2s}
-.halo{transform-origin:170px 170px;animation:pl 2.5s ease-in-out infinite;pointer-events:none}
-@keyframes pl{50%{transform:scale(1.2);opacity:.6}}
-#stage{background:radial-gradient(circle,rgba(139,109,255,.22),transparent 65%),linear-gradient(rgba(255,255,255,.04) 1px,transparent 1px) 0 0/28px 28px,linear-gradient(90deg,rgba(255,255,255,.04) 1px,transparent 1px) 0 0/28px 28px,var(--card)}
-.bump{animation:bump .3s}@keyframes bump{40%{transform:scale(1.07)}}
-.chip{animation:fl 3s ease-in-out infinite}.chip.n{animation-delay:-1s}.chip.e{animation-delay:-2s}
+.pop{position:fixed;left:50%;top:38%;transform:translateX(-50%);font-size:2.4rem;font-weight:800;color:#ffd84d;text-shadow:0 0 20px #ffd84d;z-index:46;pointer-events:none;animation:pu 1.4s forwards}@keyframes pu{to{top:22%;opacity:0}}
 .shake{animation:sk .45s}@keyframes sk{20%,60%{transform:translateX(-8px)}40%,80%{transform:translateX(8px)}}
-#prog{display:flex;gap:6px;margin-bottom:12px}#prog i{flex:1;height:8px;border-radius:9px;background:var(--card)}
-#prog i.d{background:linear-gradient(90deg,var(--v),var(--e));box-shadow:0 0 10px var(--e)}#prog i.c{background:var(--p);animation:bl 1s infinite}
-@keyframes bl{50%{opacity:.3}}
-#info .tile{display:grid;place-items:center;border:2px solid var(--e);border-radius:14px;padding:6px;margin-bottom:8px;text-align:center;line-height:1.3;box-shadow:0 0 18px rgba(62,197,255,.4);animation:fl 3s infinite}
-#info .tile big{font-size:2.2rem;font-weight:800}
-#spl{position:fixed;inset:0;display:grid;place-items:center;pointer-events:none;z-index:45;text-align:center;font-size:clamp(2rem,10vw,4.5rem);font-weight:800;opacity:0;text-shadow:0 0 30px var(--v)}
-#spl.on{animation:sp 1.6s}@keyframes sp{0%{opacity:0;transform:scale(.6)}25%,75%{opacity:1;transform:scale(1)}100%{opacity:0;transform:scale(1.3)}}
-#spl small{display:block;font-size:.4em;color:var(--e)}
-.pop{position:fixed;left:50%;top:38%;transform:translateX(-50%);font-size:2.4rem;font-weight:800;color:#ffd84d;text-shadow:0 0 20px #ffd84d;z-index:46;pointer-events:none;animation:pu 1.4s forwards}
-@keyframes pu{to{top:22%;opacity:0}}
-.medal:not(.lock){box-shadow:0 0 25px rgba(255,216,77,.35)}.medal:not(.lock) i{animation:fl 2s infinite}
-.fact{max-width:460px;margin:0 auto 22px;transition:opacity .4s}
+footer{text-align:center;color:var(--mut);padding:24px 14px}
+@media(max-width:800px){.gm{grid-template-columns:1fr}#stage{order:-1}#qo{grid-template-columns:1fr}}
+@media(prefers-reduced-motion){*{animation:none!important}}
 </style>
 </head>
 <body>
+<canvas id="fx"></canvas><canvas id="cf"></canvas>
 <nav>
-<button class="nb on" data-v="home">🏠 خانه</button>
-<button class="nb" data-v="learn">📚 آموزش</button>
-<button class="nb" data-v="game">🎮 بازی</button>
-<button class="nb" data-v="awards">🏆 افتخارات</button>
-<button class="nb" data-v="about">ℹ️ درباره بازی</button>
-<button class="nb" id="snd"></button>
+<button class="nb" data-m="home">🏠 خانه</button><button class="nb" data-m="learn">📚 آموزش</button><button class="nb" data-m="story">📖 داستان</button><button class="nb" data-m="room">🌐 آنلاین</button><button class="nb" data-m="prac">🏋️ تمرین</button><button class="nb" id="snd"></button><button class="nb" id="mus"></button>
 </nav>
 
-<section id="home" class="view on">
-<svg id="bg" viewBox="0 0 340 340"></svg>
-<h1>⚛️ اتم‌ساز</h1>
-<div class="sub">اتم خودت را بساز!</div>
-<p class="dsc">پروتون، نوترون و الکترون را درست انتخاب کن و اتم‌های مختلف را بساز.</p>
-<div class="btns"><button class="btn" data-v="game">🎮 شروع بازی</button><button class="btn alt" data-v="learn">📚 آموزش کوتاه</button></div>
+<section id="home" class="v on">
+<h1>⚛️ اتم‌ساز</h1><div class="sub">اتم خودت را بساز!</div>
+<div class="hero"><i class="core"></i>
+<div class="or" style="--z:0deg"><div class="sp" style="--d:5s"><u></u></div></div>
+<div class="or" style="--z:60deg"><div class="sp" style="--d:7s"><u></u></div></div>
+<div class="or" style="--z:120deg"><div class="sp" style="--d:9s"><u></u></div></div></div>
+<p class="tip" style="text-align:center">پروتون، نوترون و الکترون را درست انتخاب کن و اتم‌های مختلف را بساز.</p>
+<div class="modes">
+<button class="mc" data-m="story"><i>📖</i><b>حالت داستانی</b><small>۱۰ فصل · نبرد با لرد آنتروپی</small></button>
+<button class="mc" data-m="room"><i>🌐</i><b>اتاق آنلاین</b><small>با کد اتاق با دوستانت رقابت کن</small></button>
+<button class="mc" data-m="prac"><i>🏋️</i><b>تمرین ۱ تا ۱۰۰</b><small>آسان تا حرفه‌ای (با یون)</small></button>
+<button class="mc" data-m="speed"><i>🚀</i><b>مسابقه سرعتی</b><small>۶۰ ثانیه · همه مباحث و کاربردها</small></button>
+<button class="mc" data-m="iso"><i>🧪</i><b>لیگ ایزوتوپ</b><small>۸ سؤال تخصصی</small></button>
+<button class="mc" data-m="ion"><i>⚡</i><b>لیگ یون</b><small>بار، گرفتن و دادن الکترون</small></button>
+<button class="mc" data-m="info"><i>🕵️</i><b>کارآگاه عنصر</b><small>از روی سرنخ، اسمش را بگو!</small></button>
+<button class="mc" data-m="learn"><i>📚</i><b>آموزش کوتاه</b><small>قبل از شروع</small></button>
+</div>
+<div id="md"></div>
 </section>
 
-<section id="learn" class="view">
-<h2>📚 آموزش کوتاه</h2>
+<section id="learn" class="v"><h2>📚 آموزش کوتاه</h2>
 <div class="cards">
-<div class="glass"><h3>🔴 پروتون</h3><ul><li>در هسته اتم قرار دارد.</li><li>بار مثبت دارد.</li></ul></div>
-<div class="glass"><h3>⚪ نوترون</h3><ul><li>در هسته اتم قرار دارد.</li><li>بدون بار است.</li></ul></div>
-<div class="glass"><h3>🔵 الکترون</h3><ul><li>اطراف هسته قرار دارد.</li><li>بار منفی دارد.</li></ul></div>
-</div>
-<div class="cards">
-<div class="glass"><h3>🔢 عدد اتمی</h3><p>تعداد پروتون‌های یک اتم</p></div>
-<div class="glass"><h3>⚖️ عدد جرمی</h3><p>مجموع تعداد پروتون‌ها و نوترون‌ها</p></div>
-</div>
+<div class="glass"><h3>🔴 پروتون</h3>در هسته اتم است · بار مثبت</div>
+<div class="glass"><h3>⚪ نوترون</h3>در هسته اتم است · بدون بار</div>
+<div class="glass"><h3>🔵 الکترون</h3>اطراف هسته است · بار منفی</div>
+<div class="glass"><h3>🔢 عدد اتمی</h3>تعداد پروتون‌های اتم</div>
+<div class="glass"><h3>⚖️ عدد جرمی</h3>مجموع پروتون‌ها و نوترون‌ها</div>
+<div class="glass"><h3>🧪 ایزوتوپ</h3>پروتون یکسان، نوترون متفاوت</div>
+<div class="glass"><h3>⚡ یون</h3>اتمی که الکترون گرفته یا داده است.<br>بار = پروتون − الکترون</div></div>
 <div class="formula">عدد جرمی = پروتون + نوترون</div>
-<div class="glass"><h3>🧪 ایزوتوپ‌ها</h3><p>اتم‌های یک عنصر که تعداد پروتون‌هایشان یکسان و تعداد نوترون‌هایشان متفاوت است.</p></div>
-<div class="btns" style="margin-top:18px"><button class="btn" data-v="game">شروع ساخت اتم 🚀</button></div>
-</section>
+<div class="btns"><button class="btn" data-m="story">شروع ساخت اتم 🚀</button></div></section>
 
-<section id="game" class="view">
-<div class="bar glass"><span>⭐ امتیاز: <b id="sc"></b></span><span>🏆 مرحله: <b id="lv"></b></span><span id="hr"></span></div>
-<div id="prog"></div><div id="mis" class="glass"></div>
-<div class="gm" id="gm">
+<section id="game" class="v">
+<div class="bar glass"><span>⭐ <b id="sc"></b></span><span id="lv"></span><span id="hr"></span></div>
+<div id="mis" class="glass"></div>
+<div class="gm">
 <div class="glass" id="build">
-<div class="row"><div class="chip p" data-k="p"><span>+</span></div>پروتون<div class="cnt"><button class="cb" data-k="p" data-d="-1">−</button><b id="vp"></b><button class="cb" data-k="p" data-d="1">+</button></div></div>
-<div class="row"><div class="chip n" data-k="n"><span>۰</span></div>نوترون<div class="cnt"><button class="cb" data-k="n" data-d="-1">−</button><b id="vn"></b><button class="cb" data-k="n" data-d="1">+</button></div></div>
-<div class="row"><div class="chip e" data-k="e"><span>−</span></div>الکترون<div class="cnt"><button class="cb" data-k="e" data-d="-1">−</button><b id="ve"></b><button class="cb" data-k="e" data-d="1">+</button></div></div>
-<p class="tip">ذره‌ها را بکش و روی اتم رها کن؛ یا از دکمه‌های + و − استفاده کن. پروتون و نوترون در هسته می‌روند، الکترون در مدار.</p>
-</div>
-<div class="glass" id="stage"><svg id="at" viewBox="0 0 340 340"></svg></div>
-<div class="glass" id="info"></div>
-<div id="quiz" class="glass"></div>
-</div>
+<div class="row"><div class="chip p" data-k="p">+</div>پروتون<div class="cnt"><button class="cb" data-k="p" data-d="-1">−</button><b id="vp"></b><button class="cb" data-k="p" data-d="1">+</button></div></div>
+<div class="row"><div class="chip n" data-k="n">۰</div>نوترون<div class="cnt"><button class="cb" data-k="n" data-d="-1">−</button><b id="vn"></b><button class="cb" data-k="n" data-d="1">+</button></div></div>
+<div class="row"><div class="chip e" data-k="e">−</div>الکترون<div class="cnt"><button class="cb" data-k="e" data-d="-1">−</button><b id="ve"></b><button class="cb" data-k="e" data-d="1">+</button></div></div>
+<p class="tip">ذره را بکش و روی اتم رها کن (پروتون و نوترون در هسته، الکترون در مدار) یا از + و − استفاده کن. اتم را بچرخان تا سه‌بعدی ببینی!</p></div>
+<div class="glass" id="stage"><div id="atm"></div></div>
+<div class="glass" id="info"></div></div>
 <div id="msg" class="glass"></div>
-<div class="act"><button class="btn alt" id="hintB">💡 راهنما</button><button class="btn" id="chk">✅ بررسی اتم</button><button class="btn" id="nxt" hidden>مرحله بعد ➜</button></div>
+<div class="act"><button class="btn alt" id="back">↩ بازگشت</button><button class="btn alt" id="hintB">💡 راهنما</button><button class="btn" id="chk">✅ بررسی اتم</button><button class="btn" id="nxt" hidden>مرحله بعد ➜</button></div>
 </section>
 
-<section id="awards" class="view"><h2>🏆 افتخارات</h2><div class="medals" id="medals"></div></section>
+<section id="prac" class="v"><h2>🏋️ تمرین ۱ تا ۱۰۰</h2><p class="tip">🟢 آسان (۱–۲۰) · 🟡 متوسط (۲۱–۵۰) · 🟠 سخت (۵۱–۸۰) · 🔴 حرفه‌ای (۸۱–۱۰۰). مرحله‌ها پشت‌سرهم باز می‌شوند و قلبی از دست نمی‌دهی.</p><div id="pg" class="pg"></div></section>
 
-<footer id="about"><p>اتم‌ساز یک بازی آموزشی برای آشنایی با ساختار اتم، عدد اتمی، عدد جرمی و ایزوتوپ‌ها است.</p><small>طراحی شده برای یادگیری علوم هشتم</small></footer>
+<section id="qz" class="v">
+<div class="bar glass"><b id="qt"></b><span>⭐ <b id="qs">۰</b></span><span id="qn"></span></div>
+<div id="tb"><i id="tbi"></i></div>
+<div id="brd" class="glass" hidden></div>
+<div id="qbox"><div class="glass" id="qq"></div><div id="qo"></div></div>
+<div id="qres" class="glass" hidden></div>
+</section>
 
+<section id="room" class="v">
+<div class="glass" id="rset"><h2>🌐 اتاق آنلاین</h2>
+<p>یک نفر اتاق می‌سازد و کد ۴ رقمی را به دوستانش می‌دهد؛ بقیه با همان کد وارد می‌شوند. همه با سؤال‌های یکسان و زنده با هم رقابت می‌کنید.</p>
+<input id="rn" placeholder="نام تو">
+<div class="btns"><button class="btn" id="rh">🏠 ساخت اتاق</button></div>
+<input id="rc" inputmode="numeric" placeholder="کد اتاق دوستت">
+<div class="btns"><button class="btn alt" id="rj">🚪 ورود به اتاق</button></div>
+<p class="tip">نیاز به اینترنت دارد (ارتباط مستقیم دستگاه‌ها با PeerJS).</p></div>
+<div class="glass" id="rlob" hidden><h2>🔑 کد اتاق: <b id="rcode"></b></h2><p>بازیکنان:</p><div id="rl"></div>
+<div class="btns"><button class="btn" id="rs" hidden>🚀 شروع بازی</button></div><p class="tip" id="rw">منتظر شروع توسط میزبان...</p></div>
+</section>
+
+<footer><p>اتم‌ساز یک بازی آموزشی برای آشنایی با ساختار اتم، عدد اتمی، عدد جرمی و ایزوتوپ‌ها است.</p><small>طراحی شده برای یادگیری علوم هشتم</small></footer>
 <div id="toast"></div>
-<div class="ov" id="over"><div class="glass"><h2>اتمت کمی ناپایدار شد! 😄</h2><p>قلب‌هایت تمام شد. دوباره امتحان کن.</p><br><button class="btn" id="retry">دوباره تلاش کن 🔄</button></div></div>
-<div class="ov" id="win"><div class="glass"><h2>🏆 استاد اتم شدی!</h2><p>همه مرحله‌ها را کامل کردی.<br>امتیاز نهایی: <b id="fs"></b></p><br><button class="btn" id="again">بازی دوباره 🔄</button></div></div>
+<div class="ov" id="dlg"><div class="glass"><div class="av" id="dav"></div><b id="dnm"></b><p id="dtx"></p><button class="btn" id="dgo">ادامه ➜</button></div></div>
+<div class="ov" id="ov"><div class="glass"><div id="ovt"></div><div class="btns"><button class="btn" id="ovb"></button></div></div></div>
 
 <script>
-const $=id=>document.getElementById(id);
-const fa=n=>String(n).replace(/\d/g,d=>'۰۱۲۳۴۵۶۷۸۹'[d]);
-const EL=['','هیدروژن','هلیوم','لیتیم','بریلیم','بور','کربن','نیتروژن','اکسیژن','فلوئور','نئون','سدیم','منیزیم'];
-const SY=['','H','He','Li','Be','B','C','N','O','F','Ne','Na','Mg'];
-const MAX={p:12,n:14,e:12};
-const ISO_C='این دو اتم هر دو کربن هستند، چون تعداد پروتون‌هایشان یکسان است؛ اما تعداد نوترون‌هایشان متفاوت است. به این اتم‌ها ایزوتوپ می‌گوییم.<br>کربن-۱۲: ۶ پروتون، ۶ نوترون | کربن-۱۴: ۶ پروتون، ۸ نوترون';
-const ISO_O='اکسیژن-۱۶ و اکسیژن-۱۸ هر دو ۸ پروتون دارند، ولی نوترون‌هایشان ۸ و ۱۰ است؛ پس ایزوتوپ یکدیگرند.';
-const L=[
-{z:1,a:1},{z:2,a:4},{z:6,a:12},{z:6,a:14,note:ISO_C},{z:8,a:16},
-{z:3,a:7},{z:7,a:14},
-{q:[[6,6],[7,7],[6,8],[8,8]],ok:[0,2]},
-{z:10,a:20},{z:8,a:18,note:ISO_O}];
-const M=[{id:'a',i:'🏅',t:'اولین اتم',d:'اولین اتم را بساز.'},{id:'s',i:'🥈',t:'دانشمند کوچک',d:'۵ مرحله را کامل کن.'},{id:'i',i:'🔬',t:'شکارچی ایزوتوپ',d:'یک سؤال ایزوتوپی را درست حل کن.'},{id:'m',i:'🏆',t:'استاد اتم',d:'تمام مراحل را کامل کن.'}];
-
-let S;try{S=JSON.parse(localStorage.getItem('atomsaz'))}catch(e){}
-S=S||{lvl:0,score:0,hearts:3,medals:[],snd:true};
-const save=()=>{try{localStorage.setItem('atomsaz',JSON.stringify(S))}catch(e){}};
-let cur={};
-
-/* ---------- atom drawing ---------- */
-function drawAtom(s,p,n,e){
- const R=[58,92,126],cap=[2,8,8];
- let h='<defs><filter id="gl"><feDropShadow dx="0" dy="0" stdDeviation="3" flood-color="#3ec5ff"/></filter></defs>';
- R.forEach(r=>h+=`<circle cx="170" cy="170" r="${r}" fill="none" stroke="rgba(255,255,255,.2)" stroke-dasharray="3 5"/>`);
- let left=e;
- R.forEach((r,i)=>{const k=Math.min(cap[i],left);left-=k;if(!k)return;
-  h+=`<g class="orb" style="animation-duration:${7+i*5}s;animation-direction:${i%2?'reverse':'normal'}">`;
-  for(let j=0;j<k;j++){const a=2*Math.PI*j/k;h+=`<circle cx="${(170+r*Math.cos(a)).toFixed(1)}" cy="${(170+r*Math.sin(a)).toFixed(1)}" r="7" fill="#3ec5ff" filter="url(#gl)"/>`}
-  h+='</g>'});
- let pi=p,ni=n;
- for(let i=0;i<p+n;i++){
-  const isP=pi>0&&(i%2==0||ni==0);isP?pi--:ni--;
-  const r=6.2*Math.sqrt(i+.5),a=i*2.39996;
-  h+=`<circle cx="${(170+r*Math.cos(a)).toFixed(1)}" cy="${(170+r*Math.sin(a)).toFixed(1)}" r="6" fill="${isP?'#ff5d6c':'#dfe5ff'}" stroke="rgba(0,0,0,.35)"/>`}
- if(!p+n)h+='<circle cx="170" cy="170" r="4" fill="rgba(255,255,255,.3)"/>';
- s.innerHTML=h}
-
-/* ---------- audio ---------- */
-let AC;
-function tone(f,d,t=0,type='sine'){
- if(!S.snd)return;
- try{AC=AC||new(window.AudioContext||window.webkitAudioContext)();
- const o=AC.createOscillator(),g=AC.createGain(),s=AC.currentTime+t;
- o.type=type;o.frequency.value=f;g.gain.setValueAtTime(.15,s);g.gain.exponentialRampToValueAtTime(.001,s+d);
- o.connect(g);g.connect(AC.destination);o.start(s);o.stop(s+d)}catch(e){}}
-const sOk=()=>[523,659,784,1047].forEach((f,i)=>tone(f,.2,i*.1));
-const sBad=()=>{tone(200,.25,0,'sawtooth');tone(140,.3,.15,'sawtooth')};
-function snd(){$('snd').textContent='🔊 صدا: '+(S.snd?'روشن':'خاموش')}
-$('snd').onclick=()=>{S.snd=!S.snd;save();snd()};
-
-/* ---------- navigation ---------- */
-function show(v){
- if(v=='about'){$('about').scrollIntoView({behavior:'smooth'});return}
- document.querySelectorAll('.view').forEach(x=>x.classList.toggle('on',x.id==v));
- document.querySelectorAll('.nb[data-v]').forEach(x=>x.classList.toggle('on',x.dataset.v==v));
- if(v=='awards')renderMedals();scrollTo(0,0)}
-document.querySelectorAll('[data-v]').forEach(b=>b.onclick=()=>show(b.dataset.v));
+const $=i=>document.getElementById(i),fa=n=>String(n).replace(/\d/g,d=>'۰۱۲۳۴۵۶۷۸۹'[d]);
+const fm=c=>c>0?'+'+fa(c):c<0?'−'+fa(-c):'۰';
+const esc=s=>String(s).replace(/[&<>"']/g,c=>'&#'+c.charCodeAt(0)+';');
+let S;try{S=JSON.parse(localStorage.getItem('as2'))}catch(e){}
+S=Object.assign({lvl:0,score:0,pr:1,md:[],snd:1,mus:1,hr:3,best:0,name:''},S||{});
+const sv=()=>{try{localStorage.setItem('as2',JSON.stringify(S))}catch(e){}};
+const NM=['','هیدروژن','هلیوم','لیتیم','بریلیم','بور','کربن','نیتروژن','اکسیژن','فلوئور','نئون','سدیم','منیزیم','آلومینیوم','سیلیسیم','فسفر','گوگرد','کلر','آرگون'];
+const US={1:'سوخت موشک و خورشید',2:'پر کردن بالن‌ها',3:'باتری گوشی و لپ‌تاپ',6:'الماس و نوک مداد',7:'ساخت کود شیمیایی',8:'تنفس موجودات زنده',9:'خمیردندان',10:'تابلوهای نئونی',11:'نمک خوراکی (همراه کلر)',13:'قوطی نوشابه',14:'تراشه‌های کامپیوتری',17:'ضدعفونی آب استخر',18:'پر کردن لامپ‌ها'};
+function rng(a){return function(){a|=0;a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
+const MD=[['a','🏅','اولین اتم'],['s','🥈','دانشمند کوچک'],['i','🧪','شکارچی ایزوتوپ'],['n','⚡','ارباب یون'],['f','🚀','برق‌آسا'],['r','🌐','قهرمان اتاق'],['m','🏆','استاد اتم']];
+function medal(id){if(!S.md.includes(id)){S.md.push(id);sv();toast('🏅 مدال جدید: '+MD.find(m=>m[0]==id)[2]);rmd()}}
+function rmd(){$('md').innerHTML=MD.map(m=>`<span class="md ${S.md.includes(m[0])?'on':''}">${m[1]} ${m[2]}</span>`).join('')}
 let tt;function toast(t){const e=$('toast');e.textContent=t;e.style.display='block';clearTimeout(tt);tt=setTimeout(()=>e.style.display='none',2600)}
+function pop(t){const e=document.createElement('div');e.className='pop';e.textContent=t;document.body.append(e);setTimeout(()=>e.remove(),1400)}
 
-/* ---------- medals ---------- */
-function medal(id){if(S.medals.includes(id))return;S.medals.push(id);save();toast('🏅 مدال جدید: '+M.find(m=>m.id==id).t)}
-function renderMedals(){$('medals').innerHTML=M.map(m=>`<div class="glass medal ${S.medals.includes(m.id)?'':'lock'}"><i>${m.i}</i><b>${m.t}</b><p>${m.d}</p></div>`).join('')}
+/* ---------- صدا و موسیقی ---------- */
+let AC;
+function nt(f,d,w='sine',v=.15,t=0){try{const a=AC=AC||new(window.AudioContext||window.webkitAudioContext)(),o=a.createOscillator(),g=a.createGain(),s=a.currentTime+t;o.type=w;o.frequency.value=f;g.gain.setValueAtTime(v,s);g.gain.exponentialRampToValueAtTime(.001,s+d);o.connect(g);g.connect(a.destination);o.start(s);o.stop(s+d)}catch(e){}}
+const sOk=()=>S.snd&&[523,659,784,1047].forEach((f,i)=>nt(f,.2,'sine',.15,i*.1));
+const sBad=()=>{if(S.snd){nt(200,.25,'sawtooth');nt(140,.3,'sawtooth',.15,.15)}};
+const TR={noir:{b:84,w:'sawtooth',v:.03,k:1,n:[110,0,131,0,165,0,131,0,98,0,123,0,147,0,123,0],bs:[55,0,0,0,49,0,0,0]},
+ arena:{b:132,w:'square',v:.022,k:1,n:[523,659,784,659,523,659,784,1047,587,740,880,740,587,740,880,1175],bs:[131,131,175,175,196,196,147,147]},
+ calm:{b:96,w:'triangle',v:.05,n:[392,0,523,0,659,0,523,0,440,0,587,0,698,0,587,0],bs:[98,0,0,0,110,0,0,0]}};
+let mk='',mi=0,mt=0;
+function music(k){clearInterval(mt);mt=0;mk=k;if(!S.mus||!k)return;const T=TR[k];mi=0;
+ mt=setInterval(()=>{const n=T.n[mi%T.n.length];if(n)nt(n,60/T.b,T.w,T.v);if(mi%2==0){const b=T.bs[(mi>>1)%T.bs.length];if(b)nt(b,60/T.b,'sine',T.v*2.5)}if(T.k&&mi%4==0)nt(65,.2,'sine',.14);mi++},30000/T.b)}
+const lab=()=>{$('snd').textContent='🔊 صدا: '+(S.snd?'روشن':'خاموش');$('mus').textContent='🎵 موسیقی: '+(S.mus?'روشن':'خاموش')};
+$('snd').onclick=()=>{S.snd=+!S.snd;sv();lab()};$('mus').onclick=()=>{S.mus=+!S.mus;sv();lab();music(mk)};lab();
+addEventListener('pointerdown',()=>{try{AC&&AC.resume()}catch(e){}if(S.mus&&!mt)music(mk||'calm')},{passive:true});
 
-/* ---------- game ---------- */
-function mission(l){
- return l.q?'🔍 چالش ایزوتوپ: کدام دو اتم ایزوتوپ هستند؟ (دو کارت را انتخاب کن.)<br><small>یادآوری: ایزوتوپ‌ها پروتون یکسان و نوترون متفاوت دارند.</small>'
- :`🎯 مأموریت: یک اتم ${EL[l.z]} با عدد اتمی ${fa(l.z)} و عدد جرمی ${fa(l.a)} بساز.`}
-function load(i){
- cur={i,p:0,n:0,e:0,wrong:0,hint:false,solved:false,sel:[]};
- const l=L[i];
- $('gm').classList.toggle('quizmode',!!l.q);
- $('mis').innerHTML=mission(l);
- $('msg').className='glass';$('msg').innerHTML='ساخت اتم را شروع کن. هر دو پاسخ اشتباه یک قلب از تو کم می‌کند.';
- $('nxt').hidden=true;$('chk').hidden=false;$('hintB').hidden=false;
- if(l.q){$('quiz').innerHTML=l.q.map((q,k)=>`<div class="opt" data-k="${k}"><svg viewBox="0 0 340 340" id="q${k}"></svg><b>${fa(q[0])} پروتون<br>${fa(q[1])} نوترون</b></div>`).join('');
-  l.q.forEach((q,k)=>drawAtom($('q'+k),q[0],q[1],q[0]));
-  document.querySelectorAll('.opt').forEach(o=>o.onclick=()=>{if(cur.solved)return;const k=+o.dataset.k,x=cur.sel.indexOf(k);
-   x<0?cur.sel.push(k):cur.sel.splice(x,1);if(cur.sel.length>2)cur.sel.shift();
-   document.querySelectorAll('.opt').forEach(q=>q.classList.toggle('on',cur.sel.includes(+q.dataset.k)))})}
- ui()}
-function ui(){
- $('sc').textContent=fa(S.score);$('lv').textContent=fa(cur.i+1)+'/'+fa(L.length);
- $('hr').textContent='❤️'.repeat(S.hearts)+'🖤'.repeat(3-S.hearts);
+/* ---------- افکت‌ها ---------- */
+(()=>{const c=$('fx'),x=c.getContext('2d');let W,H,P=[];
+ const rs=()=>{W=c.width=innerWidth;H=c.height=innerHeight;P=Array.from({length:Math.min(80,W/12|0)},()=>({x:Math.random()*W,y:Math.random()*H,r:Math.random()*2+.6,vx:(Math.random()-.5)*.3,vy:(Math.random()-.5)*.3,c:['#ff5d6c','#3ec5ff','#fff','#8b6dff'][Math.random()*4|0],t:Math.random()*6}))};
+ rs();addEventListener('resize',rs);
+ (function f(){x.clearRect(0,0,W,H);P.forEach((p,i)=>{p.x=(p.x+p.vx+W)%W;p.y=(p.y+p.vy+H)%H;p.t+=.03;x.globalAlpha=.4+.4*Math.sin(p.t);x.fillStyle=p.c;x.shadowColor=p.c;x.shadowBlur=10;x.beginPath();x.arc(p.x,p.y,p.r,0,7);x.fill();
+ for(let j=i+1;j<P.length;j++){const q=P[j],d=Math.hypot(p.x-q.x,p.y-q.y);if(d<110){x.globalAlpha=(1-d/110)*.15;x.strokeStyle='#8b6dff';x.shadowBlur=0;x.beginPath();x.moveTo(p.x,p.y);x.lineTo(q.x,q.y);x.stroke()}}});requestAnimationFrame(f)})()})();
+let CF=[],cr=0;const cc=$('cf'),cx=cc.getContext('2d');
+function confetti(){cc.width=innerWidth;cc.height=innerHeight;const col=['#ff5d6c','#3ec5ff','#ffd84d','#38d996','#8b6dff'];
+ for(let i=0;i<140;i++){const a=Math.random()*6.28,s=Math.random()*9+4;CF.push({x:innerWidth/2,y:innerHeight*.45,vx:Math.cos(a)*s,vy:Math.sin(a)*s-6,c:col[i%5],w:Math.random()*8+4,r:Math.random()*6,l:100})}
+ if(!cr){cr=1;cl()}}
+function cl(){cx.clearRect(0,0,cc.width,cc.height);CF=CF.filter(p=>p.l-->0);
+ CF.forEach(p=>{p.vy+=.25;p.x+=p.vx;p.y+=p.vy;p.vx*=.99;p.r+=.2;cx.globalAlpha=p.l/100;cx.fillStyle=p.c;cx.save();cx.translate(p.x,p.y);cx.rotate(p.r);cx.fillRect(-p.w/2,-p.w/4,p.w,p.w/2);cx.restore()});
+ CF.length?requestAnimationFrame(cl):(cr=0,cx.clearRect(0,0,cc.width,cc.height))}
+document.querySelectorAll('.mc').forEach(c=>{c.onpointermove=e=>{const r=c.getBoundingClientRect();c.style.setProperty('--tx',((e.clientY-r.top)/r.height-.5)*-18+'deg');c.style.setProperty('--ty',((e.clientX-r.left)/r.width-.5)*18+'deg')};c.onpointerleave=()=>{c.style.setProperty('--tx','0deg');c.style.setProperty('--ty','0deg')}});
+
+/* ---------- ناوبری ---------- */
+const TH={story:'noir',room:'arena',speed:'arena',iso:'arena',ion:'arena',info:'arena'};
+function show(v){document.querySelectorAll('.v').forEach(x=>x.classList.toggle('on',x.id==v));scrollTo(0,0)}
+function go(m){document.body.className=TH[m]||'';stopQ();if(m!='room')leave();
+ const f={home:()=>{show('home');music('calm')},learn:()=>show('learn'),story:startStory,prac:()=>{buildPrac();show('prac');music('calm')},room:()=>{show('room');music('arena')}}[m];
+ f?f():qStart({kind:m})}
+document.querySelectorAll('[data-m]').forEach(b=>b.onclick=()=>go(b.dataset.m));
+
+/* ---------- دیالوگ و پنجره ---------- */
+let dtm;
+function say(c,t,cb){$('dav').textContent=c[0];$('dnm').textContent=c[1];$('dtx').textContent='';$('dlg').classList.add('on');let k=0;clearInterval(dtm);
+ dtm=setInterval(()=>{$('dtx').textContent=t.slice(0,++k);if(k%3==0&&S.snd)nt(300+k*3,.03,'square',.04);if(k>=t.length)clearInterval(dtm)},30);
+ $('dgo').onclick=()=>{if(k<t.length){clearInterval(dtm);k=t.length;$('dtx').textContent=t}else{$('dlg').classList.remove('on');cb&&cb()}}}
+function ov(h,b,f){$('ovt').innerHTML=h;$('ovb').textContent=b;$('ov').classList.add('on');$('ovb').onclick=()=>{$('ov').classList.remove('on');f&&f()}}
+
+/* ---------- اتم سه‌بعدی ---------- */
+let cur={},L=[],MODE='story',SC={rx:.45,ry:0,drag:0},PT=[],E3=[],RN=[],K=1;
+function build3d(){
+ const a=$('atm'),hs=60+(cur.p+cur.n)*5;let h='<div class="halo" style="width:'+hs+'px;height:'+hs+'px;margin:'+(-hs/2)+'px"></div><svg id="rg" viewBox="-170 -170 340 340"></svg>';
+ PT=[];E3=[];RN=[];
+ const {p,n,e}=cur,N=p+n,rr=N<2?0:9+7*Math.cbrt(N);let pi=p,ni=n;
+ for(let i=0;i<N;i++){const isP=pi>0&&(i%2==0||ni==0);isP?pi--:ni--;
+  const y=1-2*(i+.5)/N,rd=Math.sqrt(1-y*y),t=i*2.39996;
+  PT.push({x:Math.cos(t)*rd*rr,y:y*rr,z:Math.sin(t)*rd*rr});
+  h+=`<i class="p3" style="width:22px;height:22px;margin:-11px;background:radial-gradient(circle at 30% 30%,#fff9,${isP?'#ff5d6c':'#dfe5ff'} 45%,#000b);box-shadow:0 0 10px ${isP?'#ff5d6c':'#fff'}"></i>`}
+ const R=[62,98,134],cap=[2,8,8];let left=e;
+ R.forEach((r,s)=>{const k=Math.min(cap[s],left);left-=k;if(!k)return;
+  RN.push({r,tl:.9+s*.5,ps:s*1.1});
+  for(let j=0;j<k;j++){E3.push({r,a:6.283*j/k,w:(s%2?-1:1)*(1.3-s*.3),tl:.9+s*.5,ps:s*1.1});
+   h+=`<i class="p3" style="width:15px;height:15px;margin:-7.5px;background:radial-gradient(circle at 30% 30%,#fff,#3ec5ff 45%,#014);box-shadow:0 0 12px #3ec5ff"></i>`}});
+ a.innerHTML=h;a.NODES=[...a.querySelectorAll('.p3')]}
+function pj(x,y,z){const cx=Math.cos(SC.ry),sx=Math.sin(SC.ry),cy=Math.cos(SC.rx),sy=Math.sin(SC.rx);
+ const x1=x*cx+z*sx,z1=-x*sx+z*cx,y1=y*cy-z1*sy,z2=y*sy+z1*cy;return[x1,y1,z2]}
+const ring=(r,tl,ps,th)=>{const X=r*Math.cos(th),Y=r*Math.sin(th)*Math.cos(tl),Z=r*Math.sin(th)*Math.sin(tl);return[X*Math.cos(ps)-Y*Math.sin(ps),X*Math.sin(ps)+Y*Math.cos(ps),Z]};
+function frame(t){requestAnimationFrame(frame);const a=$('atm');if(!a.offsetParent||!a.NODES)return;
+ if(!SC.drag)SC.ry+=.006;
+ const nd=a.NODES;let k=0;
+ PT.forEach(o=>{const[x,y,z]=pj(o.x,o.y,o.z),s=500/(500+z),el=nd[k++];el.style.transform=`translate(${x*s}px,${y*s}px) scale(${s})`;el.style.zIndex=1000+(z|0)});
+ E3.forEach(o=>{const[X,Y,Z]=ring(o.r,o.tl,o.ps,o.a+o.w*t/1000),[x,y,z]=pj(X,Y,Z),s=500/(500+z),el=nd[k++];el.style.transform=`translate(${x*s}px,${y*s}px) scale(${s})`;el.style.zIndex=1000+(z|0)});
+ const rg=$('rg');if(rg){rg.innerHTML=RN.map(o=>{let d='';for(let i=0;i<=48;i++){const[X,Y,Z]=ring(o.r,o.tl,o.ps,i*.1309),[x,y,z]=pj(X,Y,Z),s=500/(500+z);d+=(i?'L':'M')+(x*s).toFixed(1)+','+(y*s).toFixed(1)}return`<path d="${d}" fill="none" stroke="rgba(255,255,255,.22)" stroke-dasharray="3 5"/>`}).join('')}}
+requestAnimationFrame(frame);
+function fit(){K=Math.min(1,$('stage').clientWidth/340||1,$('stage').clientHeight/340||1);$('atm').style.transform='scale('+K+')'}
+addEventListener('resize',fit);
+let ds=null;
+$('stage').onpointerdown=e=>{SC.drag=1;ds=[e.clientX,e.clientY]};
+addEventListener('pointermove',e=>{if(!SC.drag||!ds)return;SC.ry+=(e.clientX-ds[0])*.01;SC.rx=Math.max(-1.4,Math.min(1.4,SC.rx+(e.clientY-ds[1])*.01));ds=[e.clientX,e.clientY]});
+addEventListener('pointerup',()=>SC.drag=0);
+
+/* ---------- ساخت اتم ---------- */
+const CH={n:['👩‍🔬','دکتر نووا'],p:['🤖','پروتی'],x:['🦹','لرد آنتروپی']};
+const ISO_C='این دو اتم هر دو کربن‌اند چون پروتون یکسان دارند، اما نوترون‌هایشان متفاوت است (۶ و ۸). به این اتم‌ها ایزوتوپ می‌گوییم.';
+const SL=[
+[1,0,1,'n','سلام شاگرد! آزمایشگاه ۲۶ در خطر است؛ لرد آنتروپی اتم‌ها را ناپایدار کرده. با ساده‌ترین اتم شروع کن: هیدروژن.','p','بیپ! هسته سالم شد.'],
+[2,2,2,'p','برای بالن‌های آزمایشگاه هلیوم لازم داریم. مراقب نوترون‌ها باش!','n','آفرین! دو پروتون و دو نوترون.'],
+[6,6,6,'x','هاها! کربن را دزدیدم. می‌توانی کربن-۱۲ را بسازی؟','x','شانسی بود!'],
+[6,8,6,'n','حالا او از کربن-۱۴ استفاده می‌کند. دقت کن: نوترون‌ها فرق دارد!','n','ایزوتوپ‌ها: پروتون یکسان، نوترون متفاوت.',ISO_C],
+[8,8,8,'p','ژنراتور خاموش شده؛ اکسیژن-۱۶ لازم است.','p','ژنراتور روشن شد! ⚡'],
+[3,4,3,'x','لیتیم؟ ببینم از پسش برمی‌آیی!','x','هنوز تمام نشده!'],
+[7,7,7,'n','نیتروژن برای پایدار کردن هسته‌ها. دقیق بشمار.','n','عالی! داری استاد می‌شوی.'],
+[11,12,10,'p','هشدار! یک یون! سدیم یک الکترون از دست داده. یون سدیم +۱ را بساز.','p','یون مثبت یعنی الکترون کمتر از پروتون.'],
+[10,10,10,'x','نئون آخرین سد من است. عبور نمی‌کنی!','x','غیرممکن...'],
+[8,10,8,'n','نبرد آخر! اکسیژن-۱۸، ایزوتوپی از اکسیژن. تو آماده‌ای.','n','تو آزمایشگاه را نجات دادی!','اکسیژن-۱۶ و اکسیژن-۱۸ هر دو ۸ پروتون دارند ولی نوترون‌هایشان ۸ و ۱۰ است.']
+].map(a=>({p:a[0],n:a[1],e:a[2],i:[a[3],a[4]],o:[a[5],a[6]],note:a[7],txt:a[0]==a[2]?`🎯 مأموریت: اتم ${NM[a[0]]} با عدد اتمی ${fa(a[0])} و عدد جرمی ${fa(a[0]+a[1])} بساز.`:`🎯 مأموریت: یون ${NM[a[0]]} با بار ${fm(a[0]-a[2])} و عدد جرمی ${fa(a[0]+a[1])} بساز.`}));
+const PL=Array.from({length:100},(_,k)=>{const n=k+1,r=rng(n*7919+13),R=m=>r()*m|0;
+ const t=n<=15?0:n<=45?R(2):n<=70?R(3):R(4);let z=1+R(Math.min(12,2+(n/8|0)));if(t==3)z=Math.max(3,z);
+ const nn=Math.min(14,Math.max(0,z+R(4)-1)),a=z+nn,c=[-2,-1,1,2][R(4)];
+ return{p:z,n:nn,e:t==3?z-c:z,txt:['🎯 اتمی با نام '+NM[z]+'، عدد اتمی '+fa(z)+' و عدد جرمی '+fa(a)+' بساز.','🎯 اتمی با عدد اتمی '+fa(z)+' و '+fa(nn)+' نوترون بساز.','🎯 اتمی با عدد جرمی '+fa(a)+' و '+fa(nn)+' نوترون بساز؛ پروتون‌ها را خودت پیدا کن!','🎯 یون '+NM[z]+' با '+fa(z)+' پروتون، '+fa(nn)+' نوترون و بار '+fm(c)+' بساز.'][t]}});
+const MAX={p:12,n:14,e:14};
+function startStory(){MODE='story';L=SL;show('game');music('noir');load(S.lvl>=L.length?0:S.lvl)}
+function startPrac(n){MODE='prac';L=PL;document.body.className='';show('game');music('calm');load(n-1)}
+function buildPrac(){$('pg').innerHTML=Array.from({length:100},(_,k)=>{const n=k+1;return`<button class="pb t${n<=20?1:n<=50?2:n<=80?3:4} ${n<S.pr?'dn':''}" data-n="${n}" ${n>S.pr?'disabled':''}>${fa(n)}</button>`}).join('');
+ document.querySelectorAll('.pb').forEach(b=>b.onclick=()=>startPrac(+b.dataset.n))}
+const msg=(t,c='')=>{$('msg').className='glass '+c;$('msg').innerHTML=t};
+function load(i){cur={i,p:0,n:0,e:0,w:0,h:0,done:0};const l=L[i];$('mis').innerHTML=l.txt;msg('ساخت اتم را شروع کن.');
+ $('nxt').hidden=1;$('chk').hidden=0;$('hintB').hidden=0;ui();fit();if(MODE=='story')setTimeout(()=>say(CH[l.i[0]],l.i[1]),400)}
+function ui(){const{p,n,e}=cur;
+ $('sc').textContent=fa(S.score);$('lv').textContent='🏆 مرحله: '+fa(cur.i+1)+'/'+fa(L.length);$('hr').textContent=MODE=='story'?'❤️'.repeat(S.hr)+'🖤'.repeat(3-S.hr):'';
  ['p','n','e'].forEach(k=>$('v'+k).textContent=fa(cur[k]));
- const p=cur.p,a=p+cur.n;
- $('info').innerHTML=`<div>نام عنصر <b>${EL[p]||'—'}</b></div><div>پروتون <b>${fa(p)}</b></div><div>نوترون <b>${fa(cur.n)}</b></div><div>الکترون <b>${fa(cur.e)}</b></div><div>عدد اتمی <b>${fa(p)}</b></div><div>عدد جرمی <b>${fa(a)}</b></div>${p&&EL[p]?`<div>اتم <b>${EL[p]}-${fa(a)}</b></div>`:''}`;
- drawAtom($('at'),cur.p,cur.n,cur.e)}
-function add(k,d){if(cur.solved)return;const v=cur[k]+d;if(v<0||v>MAX[k])return;cur[k]=v;tone(d>0?600:400,.08);ui()}
+ $('info').innerHTML=`<div>نام عنصر <b>${NM[p]||'—'}</b></div><div>پروتون <b>${fa(p)}</b></div><div>نوترون <b>${fa(n)}</b></div><div>الکترون <b>${fa(e)}</b></div><div>عدد اتمی <b>${fa(p)}</b></div><div>عدد جرمی <b>${fa(p+n)}</b></div><div>بار <b>${fm(p-e)}</b></div><div>نوع <b>${p==e?'اتم خنثی':p>e?'یون مثبت':'یون منفی'}</b></div>`;
+ build3d()}
+function add(k,d){if(cur.done)return;const v=cur[k]+d;if(v<0||v>MAX[k])return;cur[k]=v;if(S.snd)nt(d>0?600:400,.08);ui()}
 document.querySelectorAll('.cb').forEach(b=>b.onclick=()=>add(b.dataset.k,+b.dataset.d));
-
-/* drag & drop (pointer events: works on mouse and touch) */
 document.querySelectorAll('.chip').forEach(c=>c.addEventListener('pointerdown',ev=>{
  ev.preventDefault();const g=c.cloneNode(true);g.classList.add('ghost');document.body.appendChild(g);
- const mv=e=>{g.style.left=e.clientX-23+'px';g.style.top=e.clientY-23+'px'};mv(ev);
+ const mv=e=>{g.style.left=e.clientX-22+'px';g.style.top=e.clientY-22+'px'};mv(ev);
  const up=e=>{removeEventListener('pointermove',mv);removeEventListener('pointerup',up);g.remove();drop(c.dataset.k,e.clientX,e.clientY)};
  addEventListener('pointermove',mv);addEventListener('pointerup',up)}));
-function drop(k,x,y){
- const r=$('at').getBoundingClientRect();
+function drop(k,x,y){const r=$('stage').getBoundingClientRect();
  if(x<r.left||x>r.right||y<r.top||y>r.bottom)return;
- const sc=340/r.width,d=Math.hypot(x-r.left-r.width/2,y-r.top-r.height/2)*sc,nuc=d<62;
+ const d=Math.hypot(x-r.left-r.width/2,y-r.top-r.height/2)/K,nuc=d<55;
  if(k=='e'&&nuc)return toast('الکترون‌ها اطراف هسته‌اند، نه داخل آن.');
  if(k!='e'&&!nuc)return toast('پروتون و نوترون در هسته قرار دارند.');
  add(k,1)}
+$('hintB').onclick=()=>{if(cur.done)return;cur.h=1;msg('💡 عدد جرمی = پروتون + نوترون. تعداد پروتون = عدد اتمی. بار = پروتون − الکترون (اتم خنثی: الکترون = پروتون).<br><small>با راهنما امتیاز کمتری می‌گیری.</small>')};
+$('chk').onclick=()=>{if(cur.done)return;const l=L[cur.i];
+ if(cur.p==l.p&&cur.n==l.n&&cur.e==l.e)return win(l);
+ cur.w++;sBad();const g=$('stage');g.classList.remove('shake');void g.offsetWidth;g.classList.add('shake');
+ let x='';if(MODE=='story'&&cur.w%2==0){S.hr--;sv();x=' ❤️ یک قلب از دست دادی.'}
+ msg('❌ اتمت هنوز درست نیست!'+x+'<br>'+(cur.p!=l.p?'راهنمایی: عدد اتمی برابر تعداد پروتون‌هاست.':cur.n!=l.n?'راهنمایی: عدد جرمی از مجموع پروتون‌ها و نوترون‌ها به دست می‌آید.':l.e!=l.p?'راهنمایی: بار یون = پروتون − الکترون.':'راهنمایی: در اتم خنثی تعداد الکترون‌ها با پروتون‌ها برابر است.'),'bad');ui();
+ if(S.hr<=0)ov('<h2>اتمت کمی ناپایدار شد! 😄</h2><p>قلب‌هایت تمام شد.</p>','دوباره تلاش کن 🔄',()=>{S.hr=3;sv();load(cur.i)})};
+function win(l){cur.done=1;const pts=cur.h?50:cur.w?100:150;S.score+=pts;
+ if(MODE=='story')S.lvl=cur.i+1;else S.pr=Math.min(100,Math.max(S.pr,cur.i+2));sv();
+ medal('a');if(MODE=='story'&&S.lvl>=5)medal('s');if(MODE=='story'&&S.lvl>=L.length)medal('m');
+ const o=MODE=='story'?l.o:null;
+ msg(`🎉 عالی بود! اتم را درست ساختی. <b>+${fa(pts)} امتیاز ⭐</b><br><small>${NM[l.p]}: ${fa(l.p)} پروتون + ${fa(l.n)} نوترون = عدد جرمی ${fa(l.p+l.n)}</small>${l.note?'<br>🧪 '+l.note:''}${o?`<br><br>${CH[o[0]][0]} <b>${CH[o[0]][1]}</b>: ${o[1]}`:''}`,'ok');
+ $('chk').hidden=1;$('hintB').hidden=1;$('nxt').hidden=0;pop('+'+fa(pts)+' ⭐');confetti();sOk();ui()}
+$('nxt').onclick=()=>{if(MODE=='prac')return cur.i+1>=100?go('prac'):load(cur.i+1);
+ if(S.lvl>=L.length)say(CH.n,'تو آزمایشگاه ۲۶ را نجات دادی! لرد آنتروپی فرار کرد... فعلاً. 😉',()=>{ov('<h2>🏆 استاد اتم شدی!</h2><p>امتیاز: '+fa(S.score)+'</p>','بازی دوباره 🔄',()=>{S.lvl=0;S.hr=3;sv();startStory()});confetti()});else load(S.lvl)};
+$('back').onclick=()=>go(MODE=='prac'?'prac':'home');
 
-/* checking */
-function hintFor(l){
- if(l.q)return 'راهنمایی: دنبال دو اتمی بگرد که تعداد پروتون‌هایشان برابر است ولی نوترون‌هایشان فرق دارد.';
- if(cur.p!=l.z)return 'راهنمایی: عدد اتمی برابر تعداد پروتون‌هاست.';
- if(cur.n!=l.a-l.z)return 'راهنمایی: عدد جرمی از مجموع پروتون‌ها و نوترون‌ها به دست می‌آید.';
- return 'راهنمایی: در اتم خنثی تعداد الکترون‌ها با تعداد پروتون‌ها برابر است.'}
-$('hintB').onclick=()=>{if(cur.solved)return;cur.hint=true;const l=L[cur.i];
- $('msg').className='glass';$('msg').innerHTML='💡 '+(l.q?'ایزوتوپ‌ها: پروتون یکسان، نوترون متفاوت.':'عدد جرمی = پروتون + نوترون، پس نوترون = عدد جرمی − عدد اتمی. در اتم خنثی الکترون‌ها با پروتون‌ها برابرند.')+'<br><small>(با راهنما امتیاز کمتری می‌گیری.)</small>'};
-$('chk').onclick=()=>{
- if(cur.solved)return;const l=L[cur.i];
- const ok=l.q?(cur.sel.length==2&&cur.sel.every(k=>l.ok.includes(k))):(cur.p==l.z&&cur.n==l.a-l.z&&cur.e==l.z);
- ok?win(l):lose(l)};
-function win(l){
- cur.solved=true;
- S.streak=cur.wrong||cur.hint?0:(S.streak||0)+1;const pts=(cur.hint?50:(cur.wrong?100:150))+(S.streak>1?25*(S.streak-1):0);
- S.score+=pts;S.lvl=cur.i+1;save();
- medal('a');if(S.lvl>=5)medal('s');if(l.q)medal('i');if(S.lvl>=L.length)medal('m');
- const info=l.q?'اتم‌های ۱ و ۳ هر دو ۶ پروتون دارند ولی نوترون‌هایشان متفاوت است؛ پس ایزوتوپ‌اند.'
-  :`${EL[l.z]}: ${fa(l.z)} پروتون + ${fa(l.a-l.z)} نوترون = عدد جرمی ${fa(l.a)}`;
- $('msg').className='glass ok';
- $('msg').innerHTML=`🎉 عالی بود! اتم را درست ساختی. <b>+${fa(pts)} امتیاز ⭐</b><br><small>${info}</small>${l.note?`<br><br>🧪 <b>ایزوتوپ</b><br>${l.note}`:''}`;
- $('chk').hidden=true;$('hintB').hidden=true;$('nxt').hidden=false;
- const s=$('at');s.classList.remove('glow');void s.getBoundingClientRect();s.classList.add('glow');
- sOk();ui()}
-function lose(l){
- cur.wrong++;S.streak=0;sBad();shake();
- let extra='';
- if(cur.wrong%2==0){S.hearts--;save();extra=' ❤️ یک قلب از دست دادی.'}
- $('msg').className='glass bad';
- $('msg').innerHTML='❌ اتمت هنوز درست نیست!'+extra+'<br>'+hintFor(l);
- ui();
- if(S.hearts<=0){S.hearts=0;ui();$('over').classList.add('on')}}
-$('retry').onclick=()=>{S.hearts=3;save();$('over').classList.remove('on');load(cur.i)};
-$('nxt').onclick=()=>{if(S.lvl>=L.length){$('fs').textContent=fa(S.score);$('win').classList.add('on')}else load(S.lvl)};
-$('again').onclick=()=>{S.lvl=0;S.score=0;S.hearts=3;save();$('win').classList.remove('on');load(0)};
+/* ---------- موتور کوییز: لیگ‌ها، سرعتی، آنلاین ---------- */
+const T_ALL=['mass','neu','z','ele','con','iso','ion1','ion2','ion3','info1','info2','info3','app'];
+const KD={iso:{t:'🧪 لیگ ایزوتوپ',ty:['iso','neu','mass','z','con'],n:8},ion:{t:'⚡ لیگ یون',ty:['ion1','ion2','ion3','ele'],n:8},info:{t:'🕵️ کارآگاه عنصر',ty:['info1','info2','info3'],n:8},speed:{t:'🚀 مسابقه سرعتی',ty:T_ALL,n:0},room:{t:'🌐 اتاق آنلاین',ty:T_ALL,n:10}};
+const CON=[['بار الکتریکی نوترون چیست؟','بدون بار',['مثبت','منفی','متغیر']],['پروتون در کجای اتم قرار دارد؟','در هسته',['اطراف هسته','بیرون از اتم','فقط در مدارها']],['بار الکتریکی الکترون چیست؟','منفی',['مثبت','بدون بار','متغیر']],['ایزوتوپ‌های یک عنصر در چه چیزی تفاوت دارند؟','تعداد نوترون',['تعداد پروتون','عدد اتمی','نام عنصر']],['عدد اتمی نشان‌دهنده چیست؟','تعداد پروتون‌ها',['تعداد نوترون‌ها','مجموع پروتون و نوترون','تعداد مدارها']]];
+const CIO=[['اتم با گرفتن الکترون چه باری پیدا می‌کند؟','منفی',['مثبت','بدون بار','عدد جرمی‌اش عوض می‌شود']],['اتم با از دست دادن الکترون چه باری پیدا می‌کند؟','مثبت',['منفی','بدون بار','عدد اتمی‌اش عوض می‌شود']]];
+const CAP=[['کربن-۱۴ برای چه کاری به کار می‌رود؟','تعیین سن آثار باستانی',['ساخت باتری','پر کردن بالن','ضدعفونی آب']],['کبالت-۶۰ (یک ایزوتوپ) در پزشکی برای چه کاری است؟','پرتودرمانی',['ساخت دندان','تنفس بیمار','تولید دارو از نمک']],['اورانیوم-۲۳۵ (یک ایزوتوپ) در کجا به کار می‌رود؟','نیروگاه هسته‌ای',['تابلوی نئونی','قوطی نوشابه','نوک مداد']]];
+function makeQ(r,ty){const R=m=>r()*m|0,sh=a=>{for(let i=a.length-1;i>0;i--){const j=R(i+1);[a[i],a[j]]=[a[j],a[i]]}return a};
+ const num=a=>{const s=new Set([a]);while(s.size<4)s.add(Math.max(0,a+R(7)-3));const o=sh([...s]);return{o:o.map(fa),a:o.indexOf(a)}};
+ const chg=c=>{const s=new Set([c]);while(s.size<4)s.add(R(5)-2);const o=sh([...s]);return{o:o.map(fm),a:o.indexOf(c)}};
+ const txt=(c,w)=>{const o=sh([c,...w]);return{o,a:o.indexOf(c)}};
+ const nam=z=>{const s=new Set([z]);while(s.size<4)s.add(1+R(18));const o=sh([...s]);return{o:o.map(x=>NM[x]),a:o.indexOf(z)}};
+ const cp=P=>{const c=P[R(P.length)];return{q:c[0],...txt(c[1],c[2])}};
+ const f=(p,m)=>`${fa(p)} پروتون و ${fa(m)} نوترون`;
+ const T={
+ mass:()=>{const p=2+R(10),n=Math.max(0,p+R(4)-1);return{q:`اتمی ${f(p,n)} دارد. عدد جرمی آن چند است؟`,...num(p+n)}},
+ neu:()=>{const z=2+R(10),n=Math.max(0,z+R(4)-1);return{q:`عدد اتمی یک اتم ${fa(z)} و عدد جرمی‌اش ${fa(z+n)} است. چند نوترون دارد؟`,...num(n)}},
+ z:()=>{const p=2+R(10),n=p+R(3);return{q:`اتمی ${f(p,n)} دارد. عدد اتمی آن چند است؟`,...num(p)}},
+ ele:()=>{const p=2+R(10);return{q:`یک اتم خنثی ${fa(p)} پروتون دارد. چند الکترون دارد؟`,...num(p)}},
+ con:()=>cp(CON),ion3:()=>cp(CIO),app:()=>cp(CAP),
+ iso:()=>{const z=3+R(8),n=z+R(3);return{q:`کدام اتم ایزوتوپ اتمی با ${f(z,n)} است؟`,...txt(f(z,n+1+R(2)),[f(z+1,n),f(z-1,n),f(z+2,n+1)])}},
+ ion1:()=>{const p=3+R(10),c=[-2,-1,1,2][R(4)];return{q:`یونی ${fa(p)} پروتون و ${fa(p-c)} الکترون دارد. بار آن چند است؟`,...chg(c)}},
+ ion2:()=>{const p=3+R(10),k=1+R(2),g=R(2);return{q:`اتمی با ${fa(p)} پروتون ${fa(k)} الکترون ${g?'می‌گیرد':'از دست می‌دهد'}. یون حاصل چند الکترون دارد؟`,...num(g?p+k:p-k)}},
+ info1:()=>{const z=1+R(18);return{q:`عدد اتمی من ${fa(z)} است. من کدام عنصرم؟`,...nam(z)}},
+ info2:()=>{const ks=Object.keys(US),z=+ks[R(ks.length)];return{q:`من در «${US[z]}» به کار می‌روم. من کدام عنصرم؟`,...nam(z)}},
+ info3:()=>{const z=1+R(18);return{q:`عدد اتمی عنصر ${NM[z]} چند است؟`,...num(z)}}};
+ return T[ty]()}
+let Q=null,qi=0;
+function stopQ(){clearInterval(qi);Q=null}
+const tm=(f,s)=>{$('tbi').style.transform='scaleX('+Math.max(0,f)+')';$('qn').textContent=(Q.k.n?fa(Math.min(Q.i,Q.k.n))+'/'+fa(Q.k.n)+' · ':'')+'⏱ '+fa(Math.max(0,Math.ceil(s)))};
+function qStart(o){stopQ();const k=KD[o.kind];if(!k)return;document.body.className='arena';
+ Q={kind:o.kind,k,seed:o.seed||(1e5+Math.random()*9e5|0),i:0,s:0,st:0,ok:0,tl:60,qt:15,room:o.kind=='room'};Q.r=rng(Q.seed);
+ $('qt').textContent=k.t;$('qs').textContent='۰';show('qz');music('arena');$('brd').hidden=!Q.room;$('qres').hidden=1;$('qbox').hidden=0;
+ if(Q.kind=='speed')qi=setInterval(()=>{Q.tl-=.1;tm(Q.tl/60,Q.tl);if(Q.tl<=0)qEnd()},100);
+ if(Q.room)sendSc();qNext()}
+function qNext(){if(!Q)return;if(Q.k.n&&Q.i>=Q.k.n)return qEnd();
+ const ty=Q.k.ty[Q.r()*Q.k.ty.length|0];Q.q=makeQ(Q.r,ty);Q.i++;Q.open=1;Q.t0=Date.now();
+ $('qq').textContent=Q.q.q;$('qo').innerHTML=Q.q.o.map((t,i)=>`<button class="ob" data-i="${i}">${esc(t)}</button>`).join('');
+ document.querySelectorAll('.ob').forEach(b=>b.onclick=()=>qAns(+b.dataset.i));
+ if(Q.k.n){clearInterval(qi);Q.qt=15;qi=setInterval(()=>{Q.qt-=.1;tm(Q.qt/15,Q.qt);if(Q.qt<=0)qAns(-1)},100)}else tm(Q.tl/60,Q.tl)}
+function qAns(i){if(!Q||!Q.open)return;Q.open=0;const ok=i==Q.q.a;
+ if(Q.kind=='speed'){if(ok){Q.s+=100+Q.st*10;Q.st++;Q.ok++}else{Q.tl-=3;Q.st=0}}
+ else if(ok){const p=100+Math.round(Q.qt*6);Q.s+=p;Q.ok++;pop('+'+fa(p))}
+ if(Q.kind=='speed'&&ok&&Q.st>1)pop('🔥×'+fa(Q.st));
+ ok?sOk():sBad();
+ document.querySelectorAll('.ob').forEach((b,j)=>{if(j==Q.q.a)b.classList.add('good');else if(j==i)b.classList.add('bad')});
+ $('qs').textContent=fa(Q.s);if(Q.room)sendSc();
+ if(Q.k.n)clearInterval(qi);
+ setTimeout(qNext,Q.kind=='speed'?350:900)}
+function qEnd(){if(!Q)return;clearInterval(qi);Q.open=0;Q.done=1;S.score+=Q.s;
+ if(Q.kind=='speed'){if(Q.s>S.best)S.best=Q.s;if(Q.ok>=8)medal('f')}
+ if(Q.kind=='iso'&&Q.ok>=6)medal('i');if(Q.kind=='ion'&&Q.ok>=6)medal('n');
+ sv();if(Q.room){sendSc();medal('r')}
+ $('qbox').hidden=1;$('qres').hidden=0;
+ $('qres').innerHTML=`<h2>🏁 پایان!</h2><div class="formula">⭐ ${fa(Q.s)} امتیاز · ✅ ${fa(Q.ok)} پاسخ درست${Q.kind=='speed'?'<br>🏆 رکورد تو: '+fa(S.best):''}</div><div class="btns"><button class="btn" id="qa">🔄 دوباره</button><button class="btn alt" id="qh">🏠 خانه</button></div>`;
+ confetti();sOk();const rm=Q.room,kd=Q.kind;$('qa').onclick=()=>rm?show('room'):go(kd);$('qh').onclick=()=>go('home')}
 
-/* init */
-snd();drawAtom($('bg'),6,6,6);
-if(S.lvl>=L.length){S.lvl=0;S.score=0;S.hearts=3;save()}
-load(S.lvl);
+/* ---------- اتاق آنلاین (PeerJS: ارتباط مستقیم، بدون سرور اختصاصی) ---------- */
+let PR=null,RM={};
+function leave(){try{PR&&PR.destroy()}catch(e){}PR=null;RM={};$('rset').hidden=0;$('rlob').hidden=1}
+const names=()=>Object.values(RM.pl||{}).map(p=>p.n);
+const board=()=>Object.values(RM.pl).map(p=>({n:p.n,s:p.s,d:p.d})).sort((a,b)=>b.s-a.s);
+const bc=m=>Object.values(RM.cn||{}).forEach(c=>{try{c.send(m)}catch(e){}});
+const lobList=l=>$('rl').innerHTML=l.map(n=>'<div>👤 '+esc(n)+'</div>').join('');
+function drawBoard(b){$('brd').innerHTML=b.map((p,i)=>`<div>${['🥇','🥈','🥉'][i]||fa(i+1)+'.'} ${esc(p.n)} <b>${fa(p.s)}</b>${p.d?' ✅':''}</div>`).join('')}
+function lobby(){$('rset').hidden=1;$('rlob').hidden=0;$('rcode').textContent=fa(RM.c);$('rs').hidden=!RM.host;$('rw').hidden=!!RM.host}
+function nm(){S.name=$('rn').value.trim().slice(0,16)||'بازیکن';sv();return S.name}
+$('rn').value=S.name;
+$('rh').onclick=()=>{if(!window.Peer)return toast('برای حالت آنلاین باید اینترنت وصل باشد.');
+ const c=1000+Math.random()*9000|0,n=nm();leave();PR=new Peer('atomsaz-'+c);
+ PR.on('error',e=>{toast('خطا: '+(e.type||e));if(e.type=='unavailable-id')$('rh').onclick()});
+ PR.on('open',()=>{RM={host:1,c,pl:{h:{n,s:0,d:0}},cn:{}};lobby();lobList(names())});
+ PR.on('connection',cn=>{cn.on('data',m=>{
+  if(m.t=='join'){RM.cn[cn.peer]=cn;RM.pl[cn.peer]={n:String(m.n).slice(0,16),s:0,d:0};bc({t:'lobby',l:names()});lobList(names())}
+  if(m.t=='sc'&&RM.pl[cn.peer]){const p=RM.pl[cn.peer];p.s=+m.s||0;p.d=m.d?1:0;bc({t:'board',b:board()});drawBoard(board())}});
+  cn.on('close',()=>{delete RM.cn[cn.peer];delete RM.pl[cn.peer];bc({t:'lobby',l:names()});lobList(names())})})};
+$('rj').onclick=()=>{if(!window.Peer)return toast('برای حالت آنلاین باید اینترنت وصل باشد.');
+ const c=$('rc').value.replace(/[۰-۹]/g,d=>'۰۱۲۳۴۵۶۷۸۹'.indexOf(d)).replace(/\D/g,'');if(!c)return toast('کد اتاق را وارد کن.');
+ const n=nm();leave();PR=new Peer();PR.on('error',e=>toast('خطا: '+(e.type||e)));
+ PR.on('open',()=>{const cn=PR.connect('atomsaz-'+c);RM={host:0,c,cn};
+  setTimeout(()=>{if(!RM.ok){toast('اتاقی با این کد پیدا نشد.');leave()}},9000);
+  cn.on('open',()=>{RM.ok=1;cn.send({t:'join',n});lobby()});
+  cn.on('data',m=>{if(m.t=='lobby')lobList(m.l);if(m.t=='start')qStart({kind:'room',seed:m.seed});if(m.t=='board')drawBoard(m.b)});
+  cn.on('close',()=>{toast('اتصال قطع شد.');go('room')})})};
+$('rs').onclick=()=>{const seed=1e5+Math.random()*9e5|0;Object.values(RM.pl).forEach(p=>{p.s=0;p.d=0});bc({t:'start',seed});qStart({kind:'room',seed})};
+function sendSc(){if(!RM.c||!Q)return;
+ if(RM.host){const p=RM.pl.h;p.s=Q.s;p.d=Q.done?1:0;bc({t:'board',b:board()});drawBoard(board())}
+ else try{RM.cn.send({t:'sc',s:Q.s,d:Q.done?1:0})}catch(e){}}
 
-/* ===== افکت‌ها و ایده‌های جدید ===== */
-(()=>{const c=document.createElement('canvas');c.id='fx';document.body.prepend(c);const x=c.getContext('2d');let W,H,P=[];
-const rs=()=>{W=c.width=innerWidth;H=c.height=innerHeight;P=Array.from({length:Math.min(90,W/12|0)},()=>({x:Math.random()*W,y:Math.random()*H,r:Math.random()*2.2+.6,vx:(Math.random()-.5)*.3,vy:(Math.random()-.5)*.3,c:['#ff5d6c','#3ec5ff','#fff','#8b6dff'][Math.random()*4|0],t:Math.random()*6}))};
-rs();addEventListener('resize',rs);
-(function f(){x.clearRect(0,0,W,H);P.forEach((p,i)=>{p.x=(p.x+p.vx+W)%W;p.y=(p.y+p.vy+H)%H;p.t+=.03;x.globalAlpha=.4+.4*Math.sin(p.t);x.fillStyle=p.c;x.shadowColor=p.c;x.shadowBlur=10;x.beginPath();x.arc(p.x,p.y,p.r,0,7);x.fill();
-for(let j=i+1;j<P.length;j++){const q=P[j],d=Math.hypot(p.x-q.x,p.y-q.y);if(d<110){x.globalAlpha=(1-d/110)*.15;x.strokeStyle='#8b6dff';x.shadowBlur=0;x.beginPath();x.moveTo(p.x,p.y);x.lineTo(q.x,q.y);x.stroke()}}});requestAnimationFrame(f)})()})();
-
-let CF=[],run=0;const cc=document.createElement('canvas');cc.id='cf';document.body.append(cc);const cx=cc.getContext('2d');
-function confetti(){cc.width=innerWidth;cc.height=innerHeight;const col=['#ff5d6c','#3ec5ff','#ffd84d','#38d996','#8b6dff'];
- for(let i=0;i<140;i++){const a=Math.random()*6.28,s=Math.random()*9+4;CF.push({x:innerWidth/2,y:innerHeight*.45,vx:Math.cos(a)*s,vy:Math.sin(a)*s-6,c:col[i%5],w:Math.random()*8+4,r:Math.random()*6,l:100})}
- if(!run){run=1;cl()}}
-function cl(){cx.clearRect(0,0,cc.width,cc.height);CF=CF.filter(p=>p.l-->0);
- CF.forEach(p=>{p.vy+=.25;p.x+=p.vx;p.y+=p.vy;p.vx*=.99;p.r+=.2;cx.globalAlpha=p.l/100;cx.fillStyle=p.c;cx.save();cx.translate(p.x,p.y);cx.rotate(p.r);cx.fillRect(-p.w/2,-p.w/4,p.w,p.w/2);cx.restore()});
- CF.length?requestAnimationFrame(cl):(run=0,cx.clearRect(0,0,cc.width,cc.height))}
-function pop(t){const e=document.createElement('div');e.className='pop';e.textContent=t;document.body.append(e);setTimeout(()=>e.remove(),1400)}
-function shake(){const g=$('gm');g.classList.remove('shake');void g.offsetWidth;g.classList.add('shake')}
-const spl=document.createElement('div');spl.id='spl';document.body.append(spl);
-
-const _d=drawAtom;drawAtom=function(s,p,n,e){_d(s,p,n,e);
- if(s.id=='at'||s.id=='bg')s.insertAdjacentHTML('afterbegin',`<defs><radialGradient id="hl"><stop offset="0" stop-color="#ff9db0" stop-opacity=".8"/><stop offset="1" stop-color="#8b6dff" stop-opacity="0"/></radialGradient></defs><circle class="halo" cx="170" cy="170" r="${30+(p+n)*2.5}" fill="url(#hl)"/>`)};
-const _a=add;add=function(k,d){const b=cur[k];_a(k,d);if(cur[k]!=b){const s=$('at');s.classList.remove('bump');void s.getBoundingClientRect();s.classList.add('bump')}};
-const _u=ui;ui=function(){_u();
- $('prog').innerHTML=L.map((_,k)=>`<i class="${k<S.lvl?'d':k==cur.i?'c':''}"></i>`).join('');
- if(S.streak>1)$('hr').textContent+=' 🔥×'+fa(S.streak);
- const p=cur.p;if(p&&EL[p]&&!L[cur.i].q)$('info').insertAdjacentHTML('afterbegin',`<div class="tile"><small>${fa(p)}</small><big>${SY[p]}</big><small>${EL[p]}</small><small>${fa(p+cur.n)}</small></div>`)};
-const _l=load;load=function(i){_l(i);const l=L[i];spl.innerHTML='مرحله '+fa(i+1)+'<small>'+(l.q?'چالش ایزوتوپ 🔬':EL[l.z])+'</small>';spl.classList.remove('on');void spl.offsetWidth;spl.classList.add('on')};
-const _w=win;win=function(l){const b=S.score;_w(l);pop('+'+fa(S.score-b)+' ⭐');confetti()};
-addEventListener('pointermove',e=>{$('bg').style.transform=`translate(${(e.clientX/innerWidth-.5)*50}px,${(e.clientY/innerHeight-.5)*50}px)`});
-const FACTS=['هر اتم کربن همیشه ۶ پروتون دارد.','ایزوتوپ‌ها نوترون‌های متفاوت دارند.','عدد جرمی = پروتون + نوترون','در اتم خنثی، تعداد الکترون‌ها با پروتون‌ها برابر است.'];
-$('home').querySelector('.dsc').insertAdjacentHTML('afterend','<div class="glass fact" id="fact">💡 آیا می‌دانی؟ '+FACTS[0]+'</div>');
-let fi=0;setInterval(()=>{const f=$('fact');f.style.opacity=0;setTimeout(()=>{fi=(fi+1)%FACTS.length;f.textContent='💡 آیا می‌دانی؟ '+FACTS[fi];f.style.opacity=1},400)},4500);
-drawAtom($('bg'),6,6,6);ui();
+rmd();go('home');
 </script>
 </body>
 </html>
