@@ -261,6 +261,13 @@ footer .lg{width:44px;height:44px;margin-bottom:6px;opacity:.9}
 .gold:active{transform:translateY(5px);box-shadow:0 1px 0 #9a5b00,0 0 24px rgba(255,200,40,.5)}
 .gold::after{content:'';position:absolute;top:0;left:-60%;width:40%;height:100%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.65),transparent);transform:skewX(-20deg);animation:sw 3s infinite}
 @keyframes gpl{50%{box-shadow:0 6px 0 #9a5b00,0 0 50px rgba(255,200,40,.85)}}
+/* لیدربورد نئونی با تایپوگرافی هماهنگ با تم */
+#lbov .lbbox{font-family:Vazirmatn,Tahoma,sans-serif}
+#lbov h2{font-size:clamp(1.45rem,5vw,2rem);letter-spacing:-.5px;background:linear-gradient(90deg,#fff1a8,#ffd84d,#00e5ff);-webkit-background-clip:text;background-clip:text;color:transparent;text-shadow:none;filter:drop-shadow(0 0 9px rgba(255,216,77,.28))}
+.lbrow{grid-template-columns:2.6em minmax(0,1fr) auto;gap:8px}
+.lbnm{overflow-wrap:anywhere}
+.lbpt{font-variant-numeric:tabular-nums}
+@media(max-width:420px){#lbov .lbbox{padding:12px 9px}.lbrow{padding:8px 7px;gap:6px}.lbnm{font-size:1rem}.lbpt{font-size:.95rem}.lbcl{font-size:.76rem}}
 /* پنجره‌ی لیدربورد */
 #lbov{z-index:42}
 #lbov .lbbox{width:min(94vw,540px);max-height:92vh;overflow:auto;text-align:right;padding:16px 14px;background:#0a0e1a;border:1px solid rgba(255,216,77,.55);box-shadow:0 0 40px rgba(255,200,40,.25)}
@@ -411,7 +418,7 @@ let S=Object.assign({},DS);
 const pid=(c,i)=>'c'+c+'-'+i;
 function pinfo(id){if(id=='guest')return{name:'مهمان',cls:'',c:-1,i:-1};const m=/^c(\d+)-(\d+)$/.exec(id||'');if(!m||!CLS[m[1]]||!CLS[m[1]].s[m[2]])return null;return{name:CLS[m[1]].s[m[2]],cls:CLS[m[1]].n,c:+m[1],i:+m[2]}}
 function useProfile(id){S=Object.assign({},DS,JSON.parse(JSON.stringify(PF[id]||{})));S.id=id;S.name=pinfo(id).name;PF[id]=S;try{localStorage.setItem('as3id',id)}catch(e){}sv();const r=$('rn');if(r)r.value=S.name}
-let st;const sv=()=>{try{if(S.id)PF[S.id]=S;localStorage.setItem('as3',JSON.stringify(PF))}catch(e){}clearTimeout(st);st=setTimeout(push,1500)};
+let st;const sv=()=>{try{if(S.id)PF[S.id]=S;localStorage.setItem('as3',JSON.stringify(PF))}catch(e){}clearTimeout(st);st=setTimeout(()=>{push();if($('lbov')&&$('lbov').classList.contains('on'))drawLB()},1500)};
 const NM=['','هیدروژن','هلیوم','لیتیم','بریلیم','بور','کربن','نیتروژن','اکسیژن','فلوئور','نئون','سدیم','منیزیم','آلومینیوم','سیلیسیم','فسفر','گوگرد','کلر','آرگون'];
 const SY=['','H','He','Li','Be','B','C','N','O','F','Ne','Na','Mg','Al','Si','P','S','Cl','Ar'];
 const NN=[0,0,2,4,5,6,6,7,8,10,10,12,12,14,14,16,16,18,22];
@@ -877,8 +884,7 @@ function onAuth(){
 function gLogin(){if(!DB)return;const p=new firebase.auth.GoogleAuthProvider();p.setCustomParameters({prompt:'select_account'});
  firebase.auth().signInWithPopup(p).catch(e=>{const c=e.code||'';if(c=='auth/popup-blocked'||c=='auth/operation-not-supported-in-this-environment')firebase.auth().signInWithRedirect(p);else if(c!='auth/popup-closed-by-user'&&c!='auth/cancelled-popup-request')toast('ورود ناموفق: '+c)})}
 function gOut(){firebase.auth().signOut().catch(()=>{})}
-function claim(id){if(!AU||!DB)return;toast('⏳ در حال قفل‌کردن نام...');const u={};u['claims/'+id]={uid:AU.uid};u['users/'+AU.uid]=id;
- DB.ref().update(u).then(()=>{MYPID=id;finish(id)}).catch(()=>{toast('❌ این اسم قبلاً برداشته شده یا خطایی رخ داد');gateLoad().then(()=>gate('st',pinfo(id).c))})}
+function claim(id){if(!AU||!DB)return;toast('⏳ در حال قفل‌کردن نام...');const ref=DB.ref('claims/'+id);ref.transaction(cur=>cur===null?{uid:AU.uid}:cur,{applyLocally:false}).then(result=>{if(!result.committed||!result.snapshot.val()||result.snapshot.val().uid!==AU.uid){toast('🔒 این طرف قبلاً برداشته شده است!');gateLoad().then(()=>gate('st',pinfo(id).c));return}return DB.ref('users/'+AU.uid).set(id).then(()=>{MYPID=id;finish(id)})}).catch(()=>{toast('❌ قفل‌کردن نام انجام نشد؛ اینترنت را بررسی کن');gateLoad().then(()=>gate('st',pinfo(id).c))})}
 function gateLoad(){if(!LOCK)return Promise.resolve();return fetch(LB_URL+'/claims.json').then(r=>r.json()).then(d=>{CLM=d||{}}).catch(()=>{})}
 
 /* ---------- صفحه‌ی ورود ---------- */
@@ -888,11 +894,11 @@ function gate(step,c,i){const G=$('gbox'),last=(()=>{try{return localStorage.get
  if(LOCK&&!AU&&step!='guest')step='menu';
  if(step=='cls'){gateLoad();G.innerHTML='<h2>📚 کلاس خودت کدام است؟</h2><div class="gcls">'+CLS.map((x,k)=>'<button class="gb" data-a="st" data-c="'+k+'">🏫 '+esc(x.n)+'<br><small class="tip">'+fa(x.s.length)+' نفر</small></button>').join('')+'</div><button class="btn alt gback" data-a="menu">↩ بازگشت</button>';return}
  if(step=='st'){G.innerHTML='<h2>🧑‍🎓 '+esc(CLS[c].n)+'</h2><p class="tip" style="text-align:center">'+(LOCK?'اسم خودت را انتخاب کن. اسم‌های قفل‌شده (🔒) قبلاً توسط یک اکانت گوگل برداشته شده‌اند.':'اسم خودت را انتخاب کن.')+'</p><input id="gq" placeholder="🔎 جست‌وجوی نام..."><div class="gst" id="gl"></div><button class="btn alt gback" data-a="cls">↩ انتخاب کلاس دیگر</button>';
-  const draw=()=>{if(!$('gq'))return;const q=$('gq').value.trim();$('gl').innerHTML=CLS[c].s.map((n,k)=>({n,k})).filter(x=>!q||x.n.includes(q)).map(x=>LOCK&&CLM[pid(c,x.k)]?'<button class="gb taken" data-a="taken"><small>🔒</small>'+esc(x.n)+'</button>':'<button class="gb" data-a="ok" data-c="'+c+'" data-i="'+x.k+'"><small>'+fa(x.k+1)+'</small>'+esc(x.n)+'</button>').join('')};draw();$('gq').oninput=draw;gateLoad().then(draw);return}
+  const draw=()=>{if(!$('gq'))return;const q=$('gq').value.trim();let localClaims={};try{localClaims=JSON.parse(localStorage.getItem('as3claims')||'{}')}catch(e){}$('gl').innerHTML=CLS[c].s.map((n,k)=>({n,k})).filter(x=>!q||x.n.includes(q)).map(x=>(LOCK&&CLM[pid(c,x.k)]||!LOCK&&localClaims[pid(c,x.k)])?'<button class="gb taken" data-a="taken"><small>🔒</small>'+esc(x.n)+'</button>':'<button class="gb" data-a="ok" data-c="'+c+'" data-i="'+x.k+'"><small>'+fa(x.k+1)+'</small>'+esc(x.n)+'</button>').join('')};draw();$('gq').oninput=draw;gateLoad().then(draw);return}
  if(step=='ok'){const n=CLS[c].s[i];
   if(LOCK){if(CLM[pid(c,i)]){gate('st',c);return}
    G.innerHTML='<h2>🤔 تو «'+esc(n)+'» هستی؟</h2><p style="text-align:center">'+esc(CLS[c].n)+'</p><div class="gnote">🔒 <b>هشدار:</b> بعد از تأیید، این اسم <b>برای همیشه به همین اکانت گوگل قفل می‌شود</b>؛ کس دیگری نمی‌تواند آن را بردارد و خودت هم نمی‌توانی اسمت را عوض کنی. مطمئن شو اسم خودت را انتخاب کرده‌ای!</div><div class="btns"><button class="btn" data-a="claim" data-c="'+c+'" data-i="'+i+'">🔒 بله، قفلش کن</button><button class="btn alt" data-a="st" data-c="'+c+'">↩ انتخاب دیگر</button></div>';return}
-  G.innerHTML='<h2>🤔 تو «'+esc(n)+'» هستی؟</h2><p style="text-align:center">'+esc(CLS[c].n)+'</p><div class="gnote">🎁 <b>ممکن است برای رتبه‌های برتر جایزه در نظر گرفته شود!</b><br>اگر حساب <b>دوستت</b> را انتخاب کنی، امتیازی که کسب می‌کنی برای <b>او</b> جمع می‌شود.</div><div class="btns"><button class="btn" data-a="go" data-c="'+c+'" data-i="'+i+'">✅ بله، شروع کنیم</button><button class="btn alt" data-a="st" data-c="'+c+'">↩ انتخاب دیگر</button></div>';return}
+  G.innerHTML='<h2>🤔 تو «'+esc(n)+'» هستی؟</h2><p style="text-align:center">'+esc(CLS[c].n)+'</p><div class="gnote">🔒 <b>هشدار:</b> پس از تأیید، این نام در همین مرورگر قفل می‌شود و از فهرست انتخاب حذف می‌شود.<br>⚠️ برای قفل واقعی بین دستگاه‌های مختلف و نمایش لیدربورد همه‌ی دانش‌آموزان، باید پایگاه داده‌ی آنلاین Firebase تنظیم شود.</div><div class="btns"><button class="btn" data-a="go" data-c="'+c+'" data-i="'+i+'">🔒 تأیید و قفل نام</button><button class="btn alt" data-a="st" data-c="'+c+'">↩ انتخاب دیگر</button></div>';return}
  if(step=='guest'){G.innerHTML='<h2>👋 ورود مهمان</h2><div class="gnote guest">🚫 در حالت مهمان، <b>امتیازت وارد لیدربورد نمی‌شود</b> و برای هیچ رتبه یا جایزه‌ای حساب نخواهد شد. فقط می‌توانی بازی کنی و تمرین کنی.</div><div class="btns"><button class="btn" data-a="gg">🎮 ادامه به‌عنوان مهمان</button><button class="btn alt" data-a="menu">↩ بازگشت</button></div>';return}
  const head='<h1 style="font-size:2.2rem">اتم‌ساز</h1>';
  if(LOCK){
@@ -905,11 +911,109 @@ function gate(step,c,i){const G=$('gbox'),last=(()=>{try{return localStorage.get
  const lp=pinfo(last);
  G.innerHTML=head+'<p class="sub" style="font-size:1.1rem">قبل از شروع بگو کی هستی 👇</p><div class="gnote">🏆 امتیازهای همه در لیدربورد صفحه‌ی اول نمایش داده می‌شود و <b>ممکن است برای رتبه‌های بالا جایزه‌ای باشد</b>.</div><div class="btns" style="flex-direction:column;align-items:stretch">'+(lp&&last!='guest'?'<button class="btn" data-a="go" data-c="'+lp.c+'" data-i="'+lp.i+'">▶ ادامه با '+esc(lp.name)+'</button>':'')+'<button class="btn '+(lp&&last!='guest'?'alt':'')+'" data-a="cls">🧑‍🎓 انتخاب کلاس و نام</button><button class="btn alt" data-a="guest">👤 ورود به‌عنوان مهمان</button></div>'}
 $('gate').onclick=e=>{const b=e.target.closest('[data-a]');if(!b)return;const a=b.dataset.a,c=+b.dataset.c,i=+b.dataset.i;
- if(a=='cls'||a=='st'||a=='ok'||a=='guest')gate(a,c,i);else if(a=='menu'||a=='home')gate('menu');else if(a=='go')finish(pid(c,i));else if(a=='gg')finish('guest');
+ if(a=='cls'||a=='st'||a=='ok'||a=='guest')gate(a,c,i);else if(a=='menu'||a=='home')gate('menu');else if(a=='go'){const id=pid(c,i);if(!LOCK){let claims={};try{claims=JSON.parse(localStorage.getItem('as3claims')||'{}')}catch(e){}if(claims[id]&&S.id!==id){toast('🔒 این طرف قبلاً برداشته شده است!');gate('st',c);return}claims[id]=id;try{localStorage.setItem('as3claims',JSON.stringify(claims))}catch(e){}}finish(id)}else if(a=='gg')finish('guest');
  else if(a=='claim')claim(pid(c,i));else if(a=='glogin')gLogin();else if(a=='gout')gOut();else if(a=='taken')toast('🔒 این اسم قبلاً با یک اکانت گوگل دیگر قفل شده است')};
 $('acc').onclick=$('who').onclick=()=>{stopQ();stopG();gate('menu')};
 
-if(LOCK)initFB();
+
+/* ===== Supabase: لیدربورد مشترک بدون ثبت‌نام ===== */
+const SB_URL='https://wtpcxqumfvrwmfcodtcc.supabase.co';
+const SB_KEY='sb_publishable_Z0JPqqhqvmduDPF98MSB-A_HLOU0mov';
+const SB_ON=!!(SB_URL&&SB_KEY);
+const sbHeaders={'apikey':SB_KEY,'Authorization':'Bearer '+SB_KEY,'Content-Type':'application/json'};
+let SBLB=[], SBCLAIMS={};
+async function sbGet(table,query=''){
+  const r=await fetch(SB_URL+'/rest/v1/'+table+query,{headers:sbHeaders});
+  if(!r.ok) throw new Error('Supabase '+r.status);
+  return r.json();
+}
+async function sbPost(table,body,prefer='return=minimal'){
+  return fetch(SB_URL+'/rest/v1/'+table,{method:'POST',headers:{...sbHeaders,'Prefer':prefer},body:JSON.stringify(body)});
+}
+push=function(){
+  if(!SB_ON||!S.id||S.id==='guest')return;
+  const p=pinfo(S.id);if(!p)return;
+  sbPost('game_scores',{player_id:S.id,player_name:p.name,class_name:p.cls,score:Math.max(0,S.score|0)},'resolution=merge-duplicates,return=minimal')
+    .then(r=>{if(!r.ok)throw new Error('score write '+r.status);return pull(1)}).catch(e=>console.warn('Supabase leaderboard:',e));
+};
+let sbLastPull=0;
+pull=async function(force){
+  if(!SB_ON||(!force&&Date.now()-sbLastPull<4000))return;
+  sbLastPull=Date.now();
+  try{SBLB=await sbGet('game_scores','?select=player_id,player_name,class_name,score&order=score.desc&limit=500');drawLB()}
+  catch(e){console.warn('Supabase leaderboard read:',e);$('lbn').textContent='⚠️ اتصال لیدربورد برقرار نشد؛ تنظیمات دیتابیس را بررسی کن.'}
+};
+totals=function(){
+  const T={};
+  if(SBLB.length){SBLB.forEach(x=>T[x.player_id]=Number(x.score)||0)}
+  else {for(const id in PF)if(id!=='guest')T[id]=PF[id].score|0}
+  return T;
+};
+drawLB=function(){
+  const box=$('lbs');if(!box)return;
+  const scores={};(SBLB||[]).forEach(x=>scores[x.player_id]=Number(x.score)||0);
+  const R=[];CLS.forEach((c,ci)=>c.s.forEach((n,i)=>{const id=pid(ci,i);R.push({id,n,c:ci,s:scores[id]||0})}));
+  R.sort((a,b)=>b.s-a.s||a.n.localeCompare(b.n,'fa'));R.forEach((x,i)=>x.r=(i&&R[i-1].s===x.s)?R[i-1].r:i+1);
+  const active=R.filter(x=>x.s>0),top=active.slice(0,10),me=S.id;
+  $('lbn').textContent='🌐 لیدربورد مشترک · امتیازها از دیتابیس آنلاین';
+  box.innerHTML=top.length?top.map(x=>lbRow(x,me)).join(''):'<p class="tip" style="text-align:center">هنوز امتیازی ثبت نشده؛ اولین نفر تو باش! 🚀</p>';
+  let h='';if(!me||me==='guest')h='<p class="tip" style="text-align:center">برای ثبت امتیاز، نامت را از فهرست انتخاب کن.</p>';
+  else{const m=R.find(x=>x.id===me);if(m&&m.s>0&&!top.includes(m))h='<div class="lbsep">⋯</div>'+lbRow(m,me);else if(!m||!m.s)h='<p class="tip" style="text-align:center">هنوز امتیازی نگرفته‌ای؛ یک بازی کن تا وارد لیدربورد شوی!</p>'}
+  $('lbme').innerHTML=h;
+};
+gateLoad=async function(){
+  try{const rows=await sbGet('player_claims','?select=player_id');SBCLAIMS={};rows.forEach(x=>SBCLAIMS[x.player_id]=true)}catch(e){console.warn('Supabase claims read:',e)}
+};
+claim=async function(id){
+  const p=pinfo(id);if(!p)return;
+  toast('⏳ در حال قفل‌کردن نام...');
+  try{
+    const r=await sbPost('player_claims',{player_id:id,player_name:p.name,class_name:p.cls},'return=minimal');
+    if(r.status===409){await gateLoad();toast('🔒 این اسم قبلاً انتخاب شده است!');gate('st',p.c);return}
+    if(!r.ok)throw new Error('claim '+r.status);
+    SBCLAIMS[id]=true;finish(id);
+  }catch(e){toast('❌ اتصال دیتابیس برقرار نشد؛ SQL تنظیمات را اجرا کن.');console.warn(e)}
+};
+gate=function(step,c,i){
+  const G=$('gbox'),last=(()=>{try{return localStorage.getItem('as3id')}catch(e){return ''}})();
+  $('gate').classList.add('on');$('gate').scrollTop=0;
+  if(step==='st'){
+    G.innerHTML='<h2>🧑‍🎓 '+esc(CLS[c].n)+'</h2><p class="tip" style="text-align:center">اسم خودت را انتخاب کن. اسم‌های قفل‌شده قبلاً انتخاب شده‌اند.</p><input id="gq" placeholder="🔎 جست‌وجوی نام..."><div class="gst" id="gl"></div><button class="btn alt gback" data-a="cls">↩ انتخاب کلاس دیگر</button>';
+    const draw=()=>{if(!$('gq'))return;const q=$('gq').value.trim();$('gl').innerHTML=CLS[c].s.map((n,k)=>({n,k})).filter(x=>!q||x.n.includes(q)).map(x=>SBCLAIMS[pid(c,x.k)]?'<button class="gb taken" data-a="taken"><small>🔒</small>'+esc(x.n)+'</button>':'<button class="gb" data-a="ok" data-c="'+c+'" data-i="'+x.k+'"><small>'+fa(x.k+1)+'</small>'+esc(x.n)+'</button>').join('')};
+    draw();$('gq').oninput=draw;gateLoad().then(draw);return;
+  }
+  if(step==='cls'){
+    G.innerHTML='<h2>📚 کلاس خودت کدام است؟</h2><div class="gcls">'+CLS.map((x,k)=>'<button class="gb" data-a="st" data-c="'+k+'">🏫 '+esc(x.n)+'<br><small class="tip">'+fa(x.s.length)+' نفر</small></button>').join('')+'</div><button class="btn alt gback" data-a="menu">↩ بازگشت</button>';return;
+  }
+  if(step==='ok'){
+    const n=CLS[c].s[i],id=pid(c,i);
+    if(SBCLAIMS[id]){toast('🔒 این اسم قبلاً انتخاب شده است!');gate('st',c);return}
+    G.innerHTML='<h2>🤔 تو «'+esc(n)+'» هستی؟</h2><p style="text-align:center">'+esc(CLS[c].n)+'</p><div class="gnote">🔒 <b>هشدار:</b> پس از تأیید، این اسم در دیتابیس مشترک قفل می‌شود و دیگران نمی‌توانند آن را انتخاب کنند. چون ورود و ثبت‌نام نداریم، هویت واقعی قابل تأیید نیست.</div><div class="btns"><button class="btn" data-a="claim" data-c="'+c+'" data-i="'+i+'">🔒 تأیید و قفل نام</button><button class="btn alt" data-a="st" data-c="'+c+'">↩ انتخاب دیگر</button></div>';return;
+  }
+  if(step==='guest'){
+    G.innerHTML='<h2>👋 ورود مهمان</h2><div class="gnote guest">امتیاز مهمان در لیدربورد ثبت نمی‌شود.</div><div class="btns"><button class="btn" data-a="gg">🎮 ادامه به‌عنوان مهمان</button><button class="btn alt" data-a="menu">↩ بازگشت</button></div>';return;
+  }
+  const lp=pinfo(last);
+  G.innerHTML='<h1 style="font-size:2.2rem">اتم‌ساز</h1><p class="sub" style="font-size:1.1rem">بدون ثبت‌نام بازی کن 👇</p><div class="gnote">🏆 امتیازها در لیدربورد مشترک ثبت می‌شوند. نامی را انتخاب کن که متعلق به خودت باشد.</div><div class="btns" style="flex-direction:column;align-items:stretch">'+(lp&&last!=='guest'?'<button class="btn" data-a="go" data-c="'+lp.c+'" data-i="'+lp.i+'">▶ ادامه با '+esc(lp.name)+'</button>':'')+'<button class="btn" data-a="cls">🧑‍🎓 انتخاب کلاس و نام</button><button class="btn alt" data-a="guest">👤 ورود مهمان (بدون لیدربورد)</button></div>';
+};
+$('gate').onclick=async e=>{
+  const b=e.target.closest('[data-a]');if(!b)return;
+  const a=b.dataset.a,c=+b.dataset.c,i=+b.dataset.i;
+  if(a==='cls')gate('cls');
+  else if(a==='st')gate('st',c);
+  else if(a==='ok')gate('ok',c,i);
+  else if(a==='claim')claim(pid(c,i));
+  else if(a==='go'){const id=pid(c,i);if(SBCLAIMS[id]&&(()=>{try{return localStorage.getItem('as3id')}catch(e){return ''}})()!==id){toast('🔒 این اسم قبلاً انتخاب شده است!');gate('st',c);return}if(!SBCLAIMS[id]){claim(id);return}finish(id)}
+  else if(a==='guest')gate('guest');
+  else if(a==='gg')finish('guest');
+  else if(a==='menu'||a==='home')gate('menu');
+  else if(a==='taken')toast('🔒 این اسم قبلاً انتخاب شده است!');
+};
+$('acc').onclick=$('who').onclick=()=>{stopQ();stopG();gate('menu')};
+gateLoad().then(()=>{gate('menu');pull(1)});
+
+// Supabase جایگزین Firebase شده است؛ ورود کاربر لازم نیست.
+gateLoad().then(()=>pull(1));
 gate('menu');
 rmd();go('home');
 </script>
