@@ -217,6 +217,69 @@ h1 .wm{display:inline-block}
 h1 small.en{display:block;color:#7fe9ff;-webkit-text-fill-color:#7fe9ff;text-shadow:0 0 12px rgba(0,229,255,.6);font-size:.28em;letter-spacing:.55em;font-weight:600;opacity:.8;direction:ltr;margin-top:-6px}
 footer .lg{width:44px;height:44px;margin-bottom:6px;opacity:.9}
 @media(max-width:700px){.hero.lgh{width:150px;height:150px}.br{display:flex}.lg-nav{width:34px;height:34px}nav .br span{display:none}}
+
+/* ===== ورود، کلاس‌ها و لیدربورد ===== */
+#gate{position:fixed;inset:0;z-index:90;overflow:auto;display:none;padding:18px 12px;background:radial-gradient(circle at 15% 8%,#2c1a70,transparent 50%),radial-gradient(circle at 88% 90%,#0b4a7a,transparent 50%),#0a0e2a}
+#gate.on{display:block}
+#gate .gw{max-width:640px;margin:auto}
+#gate h2{text-align:center;margin:8px 0}
+#gate .gl{width:84px;height:84px;margin:0 auto;display:block}
+.gcls{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px;margin:12px 0}
+.gb{padding:14px 10px;border-radius:16px;background:var(--card);border:1px solid var(--line);font-weight:800;text-align:center;transition:.15s}
+.gb:hover{border-color:var(--v);box-shadow:0 0 18px var(--v);transform:translateY(-2px)}
+.gst{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px;margin:10px 0}
+.gst .gb{padding:8px 6px;font-weight:600;font-size:.92rem;display:flex;gap:6px;align-items:center;justify-content:flex-start}
+.gst .gb small{color:var(--mut);min-width:1.6em;text-align:center}
+.gnote{border-radius:16px;padding:12px 14px;margin:12px 0;border:1px dashed #ffd84d;background:rgba(255,216,77,.1);line-height:1.9}
+.gnote.guest{border-color:var(--mut);background:rgba(255,255,255,.06)}
+.gback{margin-top:6px}
+.lbt{display:flex;gap:8px;flex-wrap:wrap;margin:6px 0}
+.lbt button{padding:2px 14px;border-radius:99px;background:var(--card);border:1px solid var(--line);font-size:.9rem}
+.lbt button.on{background:var(--v);border-color:var(--v);font-weight:800}
+#lbs{max-height:480px;overflow:auto;margin-top:6px;padding-inline-end:4px}
+.lr{display:grid;grid-template-columns:2.6em 1fr auto;gap:8px;align-items:center;padding:6px 10px;border-radius:12px;border:1px solid transparent}
+.lr:nth-child(odd){background:rgba(255,255,255,.04)}
+.lr b.rk{text-align:center}.lr small{color:var(--mut);display:block;line-height:1.4}
+.lr .pt{font-weight:800;color:#ffd84d;white-space:nowrap}
+.lr.me{border-color:var(--e);background:rgba(62,197,255,.14)}
+.lr.t1{background:linear-gradient(90deg,rgba(255,216,77,.22),transparent)}
+.lr.t2{background:linear-gradient(90deg,rgba(200,210,230,.16),transparent)}
+.lr.t3{background:linear-gradient(90deg,rgba(205,127,50,.2),transparent)}
+#lbn{font-size:.82rem;color:var(--mut);margin:4px 0}
+#lbsr{margin:6px 0}
+.who{cursor:pointer}
+
+/* ===== یکدست‌سازی با تم سایت + سازگاری گوشی‌های قدیمی ===== */
+#gate,.ov,#splash,#fx,#cf{top:0;left:0;right:0;bottom:0}
+#gate{background:radial-gradient(circle at 15% 8%,rgba(122,44,255,.28),transparent 50%),radial-gradient(circle at 88% 90%,rgba(0,229,255,.2),transparent 50%),#05060a}
+#toast{z-index:120;background:#0a0e1a;border:1px solid #00e5ff;box-shadow:0 0 18px rgba(0,229,255,.35);max-width:92vw;text-align:center}
+.gb.taken{opacity:.4;cursor:not-allowed;border-style:dashed}
+.gb.taken:hover{transform:none;box-shadow:none;border-color:var(--line)}
+/* دکمه‌ی بزرگ طلایی لیدربورد */
+.gold{display:flex;align-items:center;justify-content:center;gap:12px;width:100%;margin:14px 0 4px;padding:18px 16px;border-radius:20px;font-size:clamp(1.3rem,5vw,1.8rem);font-weight:800;color:#2a1a00;background:linear-gradient(135deg,#fff1a8 0%,#ffd84d 35%,#ffb703 70%,#ff8f00 100%);border:2px solid #fff3b0;box-shadow:0 6px 0 #9a5b00,0 0 34px rgba(255,200,40,.55);position:relative;overflow:hidden;animation:gpl 2.4s ease-in-out infinite}
+.gold small{display:block;font-size:.8rem;font-weight:600;opacity:.8;line-height:1.3}
+.gold:active{transform:translateY(5px);box-shadow:0 1px 0 #9a5b00,0 0 24px rgba(255,200,40,.5)}
+.gold::after{content:'';position:absolute;top:0;left:-60%;width:40%;height:100%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.65),transparent);transform:skewX(-20deg);animation:sw 3s infinite}
+@keyframes gpl{50%{box-shadow:0 6px 0 #9a5b00,0 0 50px rgba(255,200,40,.85)}}
+/* پنجره‌ی لیدربورد */
+#lbov{z-index:42}
+#lbov .lbbox{width:min(94vw,540px);max-height:92vh;overflow:auto;text-align:right;padding:16px 14px;background:#0a0e1a;border:1px solid rgba(255,216,77,.55);box-shadow:0 0 40px rgba(255,200,40,.25)}
+#lbov h2{text-align:center;font-size:1.7rem;color:#ffd84d;text-shadow:0 0 16px rgba(255,200,40,.6);margin-bottom:0}
+#lbn{text-align:center;font-size:.8rem;color:var(--mut);margin:2px 0 10px}
+.lbrow{display:grid;grid-template-columns:2.6em 1fr auto;gap:10px;align-items:center;padding:10px 12px;margin:8px 0;border-radius:16px;border:2px solid rgba(255,255,255,.12);background:rgba(255,255,255,.05)}
+.lbrk{width:2.4em;height:2.4em;border-radius:50%;display:grid;place-items:center;font-weight:800;font-size:1.05rem;background:#141a29;border:2px solid rgba(255,255,255,.25)}
+.lbnm{font-weight:800;font-size:1.1rem;line-height:1.5}
+.lbcl{display:block;font-size:.85rem;color:var(--mut);font-weight:600;line-height:1.4}
+.lbpt{font-weight:800;font-size:1.1rem;white-space:nowrap;color:#fff}
+.lbrow.g1{border-color:#ffd84d;background:linear-gradient(90deg,rgba(255,216,77,.38),rgba(255,183,3,.08));box-shadow:0 0 22px rgba(255,200,40,.4)}
+.g1 .lbrk{background:linear-gradient(135deg,#fff1a8,#ffb703);border-color:#fff3b0;font-size:1.35rem}.g1 .lbpt{color:#ffd84d;font-size:1.3rem}.g1 .lbnm{font-size:1.25rem}
+.lbrow.g2{border-color:#dfe6f2;background:linear-gradient(90deg,rgba(220,228,242,.3),rgba(220,228,242,.05));box-shadow:0 0 16px rgba(220,228,242,.25)}
+.g2 .lbrk{background:linear-gradient(135deg,#fff,#aab4c8);border-color:#fff;font-size:1.25rem}.g2 .lbpt{color:#e6ecf7;font-size:1.2rem}.g2 .lbnm{font-size:1.18rem}
+.lbrow.g3{border-color:#e08a3c;background:linear-gradient(90deg,rgba(205,127,50,.38),rgba(205,127,50,.06));box-shadow:0 0 16px rgba(205,127,50,.3)}
+.g3 .lbrk{background:linear-gradient(135deg,#ffd0a0,#cd7f32);border-color:#ffb066;font-size:1.2rem}.g3 .lbpt{color:#ffb066;font-size:1.15rem}
+.lbrow.me{outline:2px solid #00e5ff;outline-offset:1px}
+#lbme .lbrow{border-color:#00e5ff;background:rgba(0,229,255,.1)}
+.lbsep{text-align:center;color:var(--mut);font-size:.85rem;margin:2px 0}
 </style>
 </head>
 <body>
@@ -231,15 +294,17 @@ footer .lg{width:44px;height:44px;margin-bottom:6px;opacity:.9}
 <radialGradient id="lgBg" cx=".5" cy=".42" r=".7"><stop offset="0" stop-color="#16214a"/><stop offset="1" stop-color="#05060a"/></radialGradient>
 <filter id="lgF" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="2.2" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
 </defs></svg>
+<div id="gate"><div class="gw"><span class="lg gl" data-logo></span><div class="glass" id="gbox"></div></div></div>
 <div id="splash"><span class="lg" data-logo></span></div><div id="wipe"></div>
 <canvas id="cf"></canvas>
-<nav><b class="br"><span class="lg lg-nav" data-logo style="background:none;-webkit-text-fill-color:initial"></span><span>اتم‌ساز</span></b><span class="nl"><button class="nb" data-m="home">🏠 خانه</button><button class="nb" data-m="learn">📚 آموزش</button><button class="nb" data-m="story">📖 داستان</button><button class="nb" data-m="room">🌐 آنلاین</button><button class="nb" data-m="prac">🏋️ تمرین</button><button class="nb" id="snd"></button><button class="nb" id="mus"></button></span></nav>
+<nav><b class="br"><span class="lg lg-nav" data-logo style="background:none;-webkit-text-fill-color:initial"></span><span>اتم‌ساز</span></b><span class="nl"><button class="nb" data-m="home">🏠 خانه</button><button class="nb" data-m="learn">📚 آموزش</button><button class="nb" data-m="story">📖 داستان</button><button class="nb" data-m="room">🌐 آنلاین</button><button class="nb" data-m="prac">🏋️ تمرین</button><button class="nb" id="acc">👤 حساب</button><button class="nb" id="snd"></button><button class="nb" id="mus"></button></span></nav>
 
 <section id="home" class="v on">
 <div class="hh"><div class="ht"><h1><span class="wm">اتم‌ساز</span><small class="en">ATOM BUILDER</small></h1><div class="sub">اتم خودت را بساز، بازی کن، یاد بگیر!</div><p class="tip">علوم هشتم · فصل ۳ · ساختار اتم</p>
-<div class="chips"><span class="st">⭐ <b id="hs">۰</b> امتیاز</span><span class="st">🏅 <b id="hm">۰</b> مدال</span></div>
+<div class="chips"><span class="st">⭐ <b id="hs">۰</b> امتیاز</span><span class="st">🏅 <b id="hm">۰</b> مدال</span><span class="st who" id="who" title="تغییر حساب">👤 —</span></div>
 <div class="btns" style="justify-content:flex-start"><button class="btn" data-m="story">▶ شروع ماجراجویی</button><button class="btn alt" data-m="learn">📚 آموزش</button></div></div>
 <div class="hero lgh" data-logo></div></div>
+<button class="gold" id="lbBtn" type="button">🏆 لیدربورد<small>۱۰ نفر برتر · ببین رتبه‌ات چنده!</small></button>
 <h2 class="sec">🎮 بازی‌های دستی</h2><div class="modes">
 <button class="mc" data-m="sling" style="--c:#ffb703"><i>🏹</i><b>تیرکمان اتمی</b><small>توپ را بکش و جواب درست را بزن</small></button>
 <button class="mc" data-m="catch" style="--c:#38d996"><i>🧲</i><b>ذره‌گیر اتمی</b><small>آهن‌ربا را ببر و جواب درست را بگیر</small></button>
@@ -318,16 +383,35 @@ footer .lg{width:44px;height:44px;margin-bottom:6px;opacity:.9}
 <footer><span class="lg" data-logo></span><p>اتم‌ساز یک بازی آموزشی برای آشنایی با ساختار اتم، عدد اتمی، عدد جرمی و ایزوتوپ‌ها است.</p><small>طراحی شده برای یادگیری علوم هشتم</small></footer>
 <div id="toast"></div>
 <div class="ov" id="dlg"><div class="glass"><div class="av" id="dav"></div><b id="dnm"></b><p id="dtx"></p><button class="btn" id="dgo">ادامه ➜</button></div></div>
-<div class="ov" id="ov"><div class="glass"><div id="ovt"></div><div class="btns"><button class="btn" id="ovb"></button><button class="btn alt" id="ovh">🏠 خانه</button></div></div></div>
+<div class="ov" id="ov"><div class="glass"><div id="ovt"></div><div class="btns"><button class="btn" id="ovb"></button><button class="btn alt" id="ovl">🏆 لیدربورد</button><button class="btn alt" id="ovh">🏠 خانه</button></div></div></div>
+<div class="ov" id="lbov"><div class="glass lbbox"><h2>🏆 لیدربورد</h2><div id="lbn"></div><div id="lbs"></div><div id="lbme"></div><div class="btns"><button class="btn alt" id="lbx" type="button">✖ بستن</button></div></div></div>
 
 <script>(function(){var L='<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="لوگوی اتم\u200cساز"><polygon points="100,8 179.7,54 179.7,146 100,192 20.3,146 20.3,54" fill="url(#lgBg)" stroke="url(#lgR)" stroke-width="5" stroke-linejoin="round" filter="url(#lgF)"/><polygon points="100,20 169.3,60 169.3,140 100,180 30.7,140 30.7,60" fill="none" stroke="rgba(255,255,255,.12)" stroke-width="1.2" stroke-dasharray="3 6"/><g transform="rotate(0 100 100)"><ellipse cx="100" cy="100" rx="70" ry="26" fill="none" stroke="url(#lgA)" stroke-width="3.6" filter="url(#lgF)"/><circle r="6.5" fill="#00e5ff" filter="url(#lgF)"><animateMotion dur="4.2s" begin="0s" repeatCount="indefinite" path="M30,100 a70,26 0 1,0 140,0 a70,26 0 1,0 -140,0"/></circle><circle r="2.6" fill="#fff"><animateMotion dur="4.2s" begin="0s" repeatCount="indefinite" path="M30,100 a70,26 0 1,0 140,0 a70,26 0 1,0 -140,0"/></circle></g><g transform="rotate(60 100 100)"><ellipse cx="100" cy="100" rx="70" ry="26" fill="none" stroke="url(#lgB)" stroke-width="3.6" filter="url(#lgF)"/><circle r="6.5" fill="#ff2bd6" filter="url(#lgF)"><animateMotion dur="5.6s" begin="-1.8s" repeatCount="indefinite" path="M30,100 a70,26 0 1,0 140,0 a70,26 0 1,0 -140,0"/></circle><circle r="2.6" fill="#fff"><animateMotion dur="5.6s" begin="-1.8s" repeatCount="indefinite" path="M30,100 a70,26 0 1,0 140,0 a70,26 0 1,0 -140,0"/></circle></g><g transform="rotate(120 100 100)"><ellipse cx="100" cy="100" rx="70" ry="26" fill="none" stroke="url(#lgC)" stroke-width="3.6" filter="url(#lgF)"/><circle r="6.5" fill="#8b6dff" filter="url(#lgF)"><animateMotion dur="7s" begin="-3.5s" repeatCount="indefinite" path="M30,100 a70,26 0 1,0 140,0 a70,26 0 1,0 -140,0"/></circle><circle r="2.6" fill="#fff"><animateMotion dur="7s" begin="-3.5s" repeatCount="indefinite" path="M30,100 a70,26 0 1,0 140,0 a70,26 0 1,0 -140,0"/></circle></g><circle cx="100" cy="100" r="26" fill="url(#lgG)"/><g filter="url(#lgF)"><circle cx="100" cy="90" r="8.2" fill="url(#lgN)"/><circle cx="92" cy="95" r="8.2" fill="url(#lgN)"/><circle cx="108" cy="95" r="8.2" fill="url(#lgP)"/><circle cx="100" cy="100" r="8.2" fill="url(#lgP)"/><circle cx="92" cy="106" r="8.2" fill="url(#lgP)"/><circle cx="108" cy="106" r="8.2" fill="url(#lgN)"/><circle cx="100" cy="111" r="8.2" fill="url(#lgN)"/></g><circle cx="97" cy="96" r="2.4" fill="#fff" opacity=".85"/></svg>';var rm=matchMedia("(prefers-reduced-motion:reduce)").matches;document.querySelectorAll("[data-logo]").forEach(function(e){e.innerHTML=L;if(rm)e.querySelectorAll("animateMotion").forEach(function(a){a.remove()})})})();</script>
 <script>
+/* رفع صفحه‌ی خالی در گوشی‌های قدیمی‌تر: roundRect در مرورگرهای قدیمی وجود ندارد */
+if(window.CanvasRenderingContext2D&&!CanvasRenderingContext2D.prototype.roundRect){CanvasRenderingContext2D.prototype.roundRect=function(x,y,w,h,r){r=Math.max(0,Math.min(typeof r=='number'?r:(r&&r[0])||0,Math.abs(w)/2,Math.abs(h)/2));this.moveTo(x+r,y);this.arcTo(x+w,y,x+w,y+h,r);this.arcTo(x+w,y+h,x,y+h,r);this.arcTo(x,y+h,x,y,r);this.arcTo(x,y,x+w,y,r);this.closePath()}}
+let _er=0;addEventListener('error',e=>{if(_er++)return;try{toast('⚠️ '+(e.message||'خطا'))}catch(_){}});
+function gameErr(e){stopG();toast('⚠️ خطا در بازی: '+((e&&e.message)||e));try{console.error(e)}catch(_){}}
 const $=i=>document.getElementById(i),fa=n=>String(n).replace(/\d/g,d=>'۰۱۲۳۴۵۶۷۸۹'[d]);
 const fm=c=>c>0?'+'+fa(c):c<0?'−'+fa(-c):'۰';
 const esc=s=>String(s).replace(/[&<>"']/g,c=>'&#'+c.charCodeAt(0)+';');
-let S;try{S=JSON.parse(localStorage.getItem('as2'))}catch(e){}
-S=Object.assign({lvl:0,score:0,pr:1,md:[],snd:1,mus:1,hr:3,best:0,name:''},S||{});
-const sv=()=>{try{localStorage.setItem('as2',JSON.stringify(S))}catch(e){}};
+/* ---------- حساب‌ها (هر دانش‌آموز یک پروفایل جدا؛ مهمان هم یک پروفایل محلی) ---------- */
+/* ===== تنظیم Firebase (برای لیدربورد مشترک + قفل‌شدن نام روی اکانت گوگل) =====
+   مقادیر را از Firebase Console > Project settings > Your apps (Web) کپی کن.
+   تا وقتی خالی باشد، سایت در «حالت محلی» کار می‌کند و قفل نام فعال نیست. */
+const FB={apiKey:'',authDomain:'',databaseURL:'',projectId:'',appId:''};
+const LOCK=!!(FB.apiKey&&FB.databaseURL&&FB.authDomain);
+const LB_URL=LOCK?FB.databaseURL.replace(/\/$/,''):'';
+const CLS=[{"n":"شهید چمران","s":["محمدسهیل آقایی","امیرمحمد اسماعیلی","حسین اصفهانی","امیرحسام جهانیان","طاها حاج غفاری","محمدهادی حسینی","حسین حمداللهی","محمدحسین خدائی","محمدطه سعیدمحمدی","رهام شکوری","محمدرضا صدقی","سیدمحمدحسین صفوی","امیرعلی صمدی","پارسا طراح‌زاده‌گان","محمدامین عباسی","آرتین عسگری","ماهان متقیان","محمدامین مرادی","امیرعلی مسرور","مهدی‌یار مکی","محمدکسرا ملکی زندی","محمدصدرا منصورهدقان","سیدصدرا موسوی نائینی","آکام ناصری","سیدحسین هاشمی","امیرصدرا یغمائیان"]},{"n":"شهید حاجی‌زاده","s":["امیرحسین آدینه‌نژاد","امیرمهدی احمدزاده","رضا اسماعیلی","امیرعلی اوحاقی","علی ایراندوست","سیدامیرعلی بنی‌هاشمی","هادی بهاری‌فر","امیرصدرا پورجم","سیدمهراد حنیفی","محمدصالح ذوالفقاری","مبین رجب‌پور","کیارش رسولی","سیدعلی رضویان","آروین سپاسیان","امیرعلی سلیمانی‌راد","سیدمحمدرضا شریف‌زاده","محمدمتین صحت","محمدمهدی صفری","مهدی طاهرپور","سیدامیرحسین عیوض‌نژاد","محمدطاها فرحزادی","سیدعرفان قاسمی","امیرمحمد کندری","محمدصدرا مقصودی","سیدمحمدعرفان میران","محمدرضا همرنگ"]},{"n":"شهید سلامی","s":["امیرمهدی امیریان","حسین ایرانشاهی","مهدیار بهمرد","حبیب توکلی","امیرعلی جباری","علی حیدرگوی","امیرعلی خاکباز","محمدباقر خانی","محمدحسین خداپرست","علی خلیل‌زاده","امیرمحمد رحمانی","مهدی‌یار رحمتی‌زاده","علی سروری","محمدمهدی شفیعی","علی عسکری","بردیا غلامی","امیرحسین کلانتری","علیرضا مدیران","محمدکیا مظاهری","سید میرضایی","امیرعلی نادعلی","امیررضا هاتفی","احمدرضا هدایتی","محمدمهدی یافتیان","بهنود یزدانفر"]},{"n":"شهید سلیمانی","s":["سجاد امیرزگر","سیدمحمدامین پورنجفی","حسین پیمان‌پاک","محمدسبحان توکلی","امیررضا تیموری","متین حدادی","امیررضا حسین‌زاده","مهیار خلیلی","محمدرضا خواجه حسینی","محمدعلی خوشنویس","امیرعلی راسخ‌دوست","محمدعرفان ربانی","امیرحسین سلیمان","علیرضا شهبازی مقدم","علی عبداللّه‌زاده","محمدهادی علامه‌زاده","علیرضا غلامی شجاع","طاها کاشفی","علی‌اکبر کامیابی","علی کریمیان","سینا محمدزاده","امیرحسین مصری روستا","پوریا معصومی","علیرضا منصوری","بردیا مهدی ملکی","عباس نوری‌نکو"]},{"n":"شهید علیمحمدی","s":["حسین آذری","مهبد امیدوار","مهیار امیدوار","آروین بابایی","آرین پناهی","علیرضا جمالی","امیرکیان جوری","امیرحسین خادم‌زاده","محمد دژبخش","محمدمتین ده‌شیری","امیرطاها ذوالفقاری","محمدیونس سلطانی","محمدطاها شریفی","امیرپارسا طاهری","محمدهادی عاطفی‌پور","محمدطاها غلامی","سیدامیرعلی کیائی","امیرحسین گشته","محمدکسری لطفعلی‌پور","محمدرضا محفوظی","محمدطاها محمودزاده","ابوالفضل مختاریانی","سیدنیما موسوی","امیرحسین مهدوی‌آرا","محمدکیان نیک‌پژوه","طاها یزدزاد"]}];
+const DS={lvl:0,score:0,pr:1,md:[],snd:1,mus:1,hr:3,best:0,name:''};
+let PF={};try{PF=JSON.parse(localStorage.getItem('as3'))||{}}catch(e){}
+try{if(!PF.guest){const o=JSON.parse(localStorage.getItem('as2'));if(o)PF.guest=o}}catch(e){}
+let DEV;try{DEV=localStorage.getItem('as3dev');if(!DEV){DEV='d'+Math.random().toString(36).slice(2,10);localStorage.setItem('as3dev',DEV)}}catch(e){DEV='d'+Math.random().toString(36).slice(2,10)}
+let S=Object.assign({},DS);
+const pid=(c,i)=>'c'+c+'-'+i;
+function pinfo(id){if(id=='guest')return{name:'مهمان',cls:'',c:-1,i:-1};const m=/^c(\d+)-(\d+)$/.exec(id||'');if(!m||!CLS[m[1]]||!CLS[m[1]].s[m[2]])return null;return{name:CLS[m[1]].s[m[2]],cls:CLS[m[1]].n,c:+m[1],i:+m[2]}}
+function useProfile(id){S=Object.assign({},DS,JSON.parse(JSON.stringify(PF[id]||{})));S.id=id;S.name=pinfo(id).name;PF[id]=S;try{localStorage.setItem('as3id',id)}catch(e){}sv();const r=$('rn');if(r)r.value=S.name}
+let st;const sv=()=>{try{if(S.id)PF[S.id]=S;localStorage.setItem('as3',JSON.stringify(PF))}catch(e){}clearTimeout(st);st=setTimeout(push,1500)};
 const NM=['','هیدروژن','هلیوم','لیتیم','بریلیم','بور','کربن','نیتروژن','اکسیژن','فلوئور','نئون','سدیم','منیزیم','آلومینیوم','سیلیسیم','فسفر','گوگرد','کلر','آرگون'];
 const SY=['','H','He','Li','Be','B','C','N','O','F','Ne','Na','Mg','Al','Si','P','S','Cl','Ar'];
 const NN=[0,0,2,4,5,6,6,7,8,10,10,12,12,14,14,16,16,18,22];
@@ -399,7 +483,7 @@ const TH={story:'noir',room:'arena',speed:'arena',iso:'arena',ion:'arena',info:'
 function show(v){document.querySelectorAll('.v').forEach(x=>x.classList.toggle('on',x.id==v));document.querySelectorAll('.nb[data-m]').forEach(b=>b.classList.toggle('act',b.dataset.m==v));
  const w=$('wipe');w.classList.remove('go');void w.offsetWidth;w.classList.add('go');scrollTo(0,0)}
 function go(m){document.body.className=TH[m]||'';stopQ();if(m!='room')leave();
- const f={home:()=>{rmd();show('home');music('calm')},learn:()=>show('learn'),story:startStory,prac:()=>{buildPrac();show('prac');music('calm')},room:()=>{show('room');music('arena')},table:()=>{buildTable();show('table');music('calm')},sling:startSling,catch:()=>arcStart('c'),flap:()=>arcStart('f'),brk:()=>arcStart('g'),mem:()=>arcStart('j')}[m];
+ const f={home:()=>{rmd();renderLB();show('home');music('calm')},learn:()=>show('learn'),story:startStory,prac:()=>{buildPrac();show('prac');music('calm')},room:()=>{show('room');music('arena')},table:()=>{buildTable();show('table');music('calm')},sling:startSling,catch:()=>arcStart('c'),flap:()=>arcStart('f'),brk:()=>arcStart('g'),mem:()=>arcStart('j')}[m];
  f?f():qStart({kind:m})}
 document.querySelectorAll('[data-m]').forEach(b=>b.onclick=()=>go(b.dataset.m));
 
@@ -577,7 +661,7 @@ function qEnd(){if(!Q||Q.done)return;clearInterval(qi);Q.open=0;Q.done=1;S.score
  if(Q.kind=='iso'&&Q.ok>=6)medal('i');if(Q.kind=='ion'&&Q.ok>=6)medal('n');
  sv();if(Q.room){sendSc();medal('r')}
  $('qbox').hidden=1;$('qres').hidden=0;
- $('qres').innerHTML=`<h2>🏁 پایان!</h2><div class="formula">⭐ ${fa(Q.s)} امتیاز · ✅ ${fa(Q.ok)} پاسخ درست${Q.kind=='speed'?'<br>🏆 رکورد تو: '+fa(S.best):''}</div><div class="btns"><button class="btn" id="qa">🔄 دوباره</button><button class="btn alt" id="qh">🏠 خانه</button></div>`;
+ $('qres').innerHTML=`<h2>🏁 پایان!</h2><div class="formula">⭐ ${fa(Q.s)} امتیاز · ✅ ${fa(Q.ok)} پاسخ درست${Q.kind=='speed'?'<br>🏆 رکورد تو: '+fa(S.best):''}</div><div class="btns"><button class="btn" id="qa">🔄 دوباره</button><button class="btn alt" id="qlb">🏆 لیدربورد</button><button class="btn alt" id="qh">🏠 خانه</button></div>`;$('qlb').onclick=()=>openLB();
  confetti();sOk();const rm=Q.room,kd=Q.kind;$('qa').onclick=()=>rm?show('room'):go(kd);$('qh').onclick=()=>go('home')}
 /* میان‌بر کیبورد */
 addEventListener('keydown',e=>{if(!Q||!Q.open)return;const i='1234۱۲۳۴'.indexOf(e.key);if(i>=0)qAns(i%4)});
@@ -627,22 +711,22 @@ function stopG(){clearInterval(GT);cancelAnimationFrame(SLR);cancelAnimationFram
 let AR=0,AG=null;
 const scv=$('scv'),sx=scv.getContext('2d'),AX=110,AY=290,SLT=[[430,100],[610,170],[430,250],[610,320]];
 const spt=e=>{const r=scv.getBoundingClientRect();return[(e.clientX-r.left)*720/r.width,(e.clientY-r.top)*400/r.height]};
-function startSling(){stopG();document.body.className='arena';show('sling');music('arena');SG={sc:0,hp:3,rd:0,sh:3,used:0,b:null,d:null,T:[],lock:0};SLt=0;SLa=0;slNext();slLoop(performance.now())}
+function startSling(){stopG();document.body.className='arena';show('sling');music('arena');SG={sc:0,hp:3,rd:0,sh:3,used:0,b:null,d:null,T:[],lock:0};SLt=0;SLa=0;try{slNext();slLoop(performance.now())}catch(err){gameErr(err)}}
 const slBar=()=>{if(!SG)return;$('ssc').textContent=fa(SG.sc);$('sqn').textContent='سؤال '+fa(SG.rd)+'/۱۰';setHearts($('shb'),SG.hp,3);setMag($('smag'),3-SG.used,3)};
 function slNext(){if(!SG)return;if(SG.rd>=10)return slEnd();SG.rd++;SG.sh=3;SG.used=0;SG.b=null;SG.lock=0;
  const q=makeQ(rng(Date.now()+SG.rd*77),T_ALL[Math.random()*T_ALL.length|0]);$('sq').textContent=q.q;
  SG.T=q.o.map((t,i)=>({t,ok:i==q.a,x:SLT[i][0],y:SLT[i][1],by:SLT[i][1],ph:i*1.7,w:100,st:0}));slBar()}
-function slLoop(ts){if(!SG)return;SLR=requestAnimationFrame(slLoop);const dt=Math.min(50,ts-(SLt||ts));SLt=ts;SLa+=dt;let n=0;while(SLa>=15.5&&n<3&&SG){SLa-=16.667;n++;slStep()}}
+function slLoop(ts){if(!SG)return;SLR=requestAnimationFrame(slLoop);const dt=Math.min(50,ts-(SLt||ts));SLt=ts;SLa+=dt;let n=0;while(SLa>=15.5&&n<3&&SG){SLa-=16.667;n++;try{slStep()}catch(err){gameErr(err);return}}}
 function slStep(){const g=SG,t=Date.now()/600,B=AY-5;
  sx.clearRect(0,0,720,400);sx.font='600 '+(MQ.matches?21:14)+'px Vazirmatn,Tahoma,sans-serif';sx.textAlign='center';sx.textBaseline='middle';
- sx.fillStyle='#143a2c';sx.fillRect(0,385,720,15);
+ sx.fillStyle='#07111c';sx.fillRect(0,385,720,15);sx.fillStyle='#00e5ff';sx.fillRect(0,385,720,2);
  g.T.forEach(o=>{if(o.gone)return;o.y=o.by+Math.sin(t+o.ph)*14;o.w=sx.measureText(o.t).width+26;
-  sx.fillStyle=o.st?'#38d996':'rgba(255,255,255,.18)';sx.strokeStyle=o.st?'#38d996':'#8b6dff';sx.lineWidth=2;
-  sx.beginPath();sx.roundRect(o.x-o.w/2,o.y-19,o.w,38,19);sx.fill();sx.stroke();sx.fillStyle='#fff';sx.fillText(o.t,o.x,o.y+1)});
- sx.strokeStyle='#a0693a';sx.lineWidth=8;sx.lineCap='round';sx.beginPath();sx.moveTo(AX,AY+75);sx.lineTo(AX,AY+20);sx.lineTo(AX-18,AY-5);sx.moveTo(AX,AY+20);sx.lineTo(AX+18,AY-5);sx.stroke();
+  sx.shadowColor=o.st?'#38d996':'#00e5ff';sx.shadowBlur=10;sx.fillStyle=o.st?'rgba(56,217,150,.4)':'rgba(10,14,26,.92)';sx.strokeStyle=o.st?'#38d996':'#00e5ff';sx.lineWidth=2;
+  sx.beginPath();sx.roundRect(o.x-o.w/2,o.y-19,o.w,38,19);sx.fill();sx.stroke();sx.shadowBlur=0;sx.fillStyle='#fff';sx.fillText(o.t,o.x,o.y+1)});
+ sx.strokeStyle='#ff2bd6';sx.lineWidth=8;sx.lineCap='round';sx.beginPath();sx.moveTo(AX,AY+75);sx.lineTo(AX,AY+20);sx.lineTo(AX-18,AY-5);sx.moveTo(AX,AY+20);sx.lineTo(AX+18,AY-5);sx.stroke();
  const p=g.d||(g.b?null:[AX,B]);
- if(p){sx.strokeStyle='#ffd84d';sx.lineWidth=3;sx.beginPath();sx.moveTo(AX-18,B);sx.lineTo(p[0],p[1]);sx.lineTo(AX+18,B);sx.stroke()}
- if(g.d){let x=g.d[0],y=g.d[1],vx=(AX-x)*.2,vy=(B-y)*.2;sx.fillStyle='rgba(255,255,255,.7)';for(let i=0;i<30;i++){vy+=.28;x+=vx;y+=vy;if(i%3==0){sx.beginPath();sx.arc(x,y,2.5,0,7);sx.fill()}}}
+ if(p){sx.strokeStyle='#00e5ff';sx.lineWidth=3;sx.beginPath();sx.moveTo(AX-18,B);sx.lineTo(p[0],p[1]);sx.lineTo(AX+18,B);sx.stroke()}
+ if(g.d){let x=g.d[0],y=g.d[1],vx=(AX-x)*.2,vy=(B-y)*.2;sx.fillStyle='rgba(0,229,255,.7)';for(let i=0;i<30;i++){vy+=.28;x+=vx;y+=vy;if(i%3==0){sx.beginPath();sx.arc(x,y,2.5,0,7);sx.fill()}}}
  const b=g.b;
  if(b){b.vy+=.28;b.x+=b.vx;b.y+=b.vy;
   for(const o of g.T){if(o.gone)continue;const cx=Math.max(o.x-o.w/2,Math.min(b.x,o.x+o.w/2)),cy=Math.max(o.y-19,Math.min(b.y,o.y+19));
@@ -652,7 +736,7 @@ function slStep(){const g=SG,t=Date.now()/600,B=AY-5;
     slBar();break}}
   if(g.b&&(b.y>385||b.x>730||b.x<-20)){g.b=null;g.sh--;
    if(g.sh<=0){g.hp--;toast('💔 تیرها تمام شد؛ جواب درست سبز شد');g.T.forEach(o=>{if(o.ok)o.st=1});g.lock=1;g.hp<=0?slEnd():setTimeout(slNext,1300)}slBar()}}
- const q=g.b||p;if(q){sx.fillStyle='#3ec5ff';sx.beginPath();sx.arc(q.x??q[0],q.y??q[1],11,0,7);sx.fill();sx.fillStyle='#fff8';sx.beginPath();sx.arc((q.x??q[0])-3,(q.y??q[1])-3,4,0,7);sx.fill()}}
+ const q=g.b||p;if(q){sx.shadowColor='#00e5ff';sx.shadowBlur=16;sx.fillStyle='#00e5ff';sx.beginPath();sx.arc(q.x??q[0],q.y??q[1],11,0,7);sx.fill();sx.shadowBlur=0;sx.fillStyle='#fff8';sx.beginPath();sx.arc((q.x??q[0])-3,(q.y??q[1])-3,4,0,7);sx.fill()}}
 scv.onpointerdown=e=>{const g=SG;if(!g||g.b||g.lock)return;const p=spt(e);if(Math.hypot(p[0]-AX,p[1]-AY)<90){g.d=[AX,AY-5];scv.setPointerCapture(e.pointerId)}};
 scv.onpointermove=e=>{const g=SG;if(!g||!g.d)return;const p=spt(e);let dx=p[0]-AX,dy=p[1]-AY+5,l=Math.hypot(dx,dy);if(l>80){dx*=80/l;dy*=80/l}g.d=[AX+dx,AY-5+dy]};
 scv.onpointerup=()=>{const g=SG;if(!g||!g.d)return;const d=g.d;g.d=null;const vx=(AX-d[0])*.2,vy=(AY-5-d[1])*.2;if(Math.hypot(vx,vy)<2)return;g.b={x:d[0],y:d[1],vx,vy};g.used++;slBar();if(S.snd)nt(300,.25,'triangle',.1,0,{sl:700})};
@@ -665,12 +749,12 @@ const apt=e=>{const r=gcv.getBoundingClientRect();return[(e.clientX-r.left)*720/
 const bq=(x,y,n)=>{const r=gcv.getBoundingClientRect();burst(r.left+x*r.width/720,r.top+y*r.height/400,n)};
 const AT={c:'🧲 ذره‌گیر اتمی',f:'🕊️ الکترون پرنده',g:'🧱 آجرشکن اتمی',j:'🃏 جفت‌یاب اتمی'};
 const AH={c:'آهن‌ربا را با موس یا انگشت ببر و فقط جواب درست را بگیر. گرفتن جواب غلط یا از دست دادن جواب درست = یک جان کم.',f:'کلیک، لمس یا کلید فاصله = بال‌زدن. از دروازه‌ی جواب درست رد شو. بالا و پایین صفحه خطری ندارد؛ فقط برخورد با دیوار یا دروازه‌ی غلط جان می‌گیرد.',g:'موس یا انگشت = حرکت تخته · کلیک = رها کردن توپ. توپ را به آجر جواب درست بزن.',j:'کارت‌ها را بچرخان و جفت‌ها را پیدا کن. اول چند لحظه همه را نشان می‌دهیم؛ خوب نگاه کن! هر جفت اشتباه یک جان کم می‌کند.'};
-function arcStart(k){stopG();document.body.className='arena';show('arc');music('arena');$('at').textContent=AT[k];$('ah').textContent=AH[k]||'';ATa=0;ACC=0;AG={k,sc:0,hp:3,f:0,T:[],mx:360};G0[k](AG);arcLoop(performance.now())}
+function arcStart(k){stopG();document.body.className='arena';show('arc');music('arena');$('at').textContent=AT[k];$('ah').textContent=AH[k]||'';ATa=0;ACC=0;AG={k,sc:0,hp:3,f:0,T:[],mx:360};try{G0[k](AG);arcLoop(performance.now())}catch(err){gameErr(err)}}
 const MQ=matchMedia('(max-width:700px) and (orientation:portrait)'),FS=()=>MQ.matches?22:15;
 let ATa=0,ACC=0;
 /* گام ثابت ۶۰ بار در ثانیه: روی نمایشگرهای ۹۰/۱۲۰/۱۴۴ هرتز هم بازی تند نمی‌شود */
 function arcLoop(ts){if(!AG)return;AR=requestAnimationFrame(arcLoop);const dt=Math.min(50,ts-(ATa||ts));ATa=ts;ACC+=dt;let n=0;
- while(ACC>=15.5&&n<3&&AG){ACC-=16.667;n++;const g=AG;g.f++;gx.clearRect(0,0,720,400);gx.font='700 '+FS()+'px Vazirmatn,Tahoma,sans-serif';gx.textAlign='center';gx.textBaseline='middle';GS[g.k](g)}
+ while(ACC>=15.5&&n<3&&AG){ACC-=16.667;n++;const g=AG;g.f++;gx.clearRect(0,0,720,400);gx.font='700 '+FS()+'px Vazirmatn,Tahoma,sans-serif';gx.textAlign='center';gx.textBaseline='middle';try{GS[g.k](g)}catch(err){gameErr(err);return}}
  if(AG){const g=AG,t=fa(g.sc);if($('asc').textContent!==t)$('asc').textContent=t;setHearts($('ahb'),g.hp,g.mh||3)}}
 function arcEnd(){const g=AG;if(!g)return;cancelAnimationFrame(AR);AG=null;S.score+=g.sc;const bk='b'+g.k;if(g.sc>(S[bk]||0))S[bk]=g.sc;if(g.sc>=500)medal(g.k);sv();setHearts($('ahb'),g.hp,g.mh||3);
  ov(`<h2>${g.hp<=0?'💔 باختی!':'🏁 پایان!'}</h2><p>⭐ ${fa(g.sc)} امتیاز<br>🏆 رکورد: ${fa(S[bk]||0)}</p>`,'دوباره 🔄',()=>arcStart(g.k));if(g.hp>0)confetti()}
@@ -708,7 +792,7 @@ G0.g=g=>{g.q=0;g.on=0;g.tap=()=>{if(!g.on&&!g.lock){g.on=1;g.vx=3.4*(Math.random
 function gNext(g){if(AG!==g)return;if(g.q>=10)return arcEnd();g.q++;g.on=0;g.lock=0;const q=mq(g,17);$('aq').textContent=`(${fa(g.q)}/۱۰) `+q.q+' — توپ را با کلیک رها کن';
  g.T=q.o.map((t,i)=>({t,ok:i==q.a,x:i*180+5,y:36,w:170,h:46,live:1,st:0}))}
 GS.g=g=>{const px=Math.max(55,Math.min(665,g.mx));
- g.T.forEach(o=>{if(!o.live&&!o.st)return;gx.fillStyle=o.st?'#38d996':'#3a1250';gx.strokeStyle=o.st?'#38d996':'#ff2bd6';gx.lineWidth=2;gx.beginPath();gx.roundRect(o.x,o.y,o.w,o.h,10);gx.fill();gx.stroke();gx.fillStyle='#fff';gx.fillText(o.t,o.x+o.w/2,o.y+o.h/2+1)});
+ g.T.forEach(o=>{if(!o.live&&!o.st)return;gx.fillStyle=o.st?'#38d996':'rgba(255,43,214,.16)';gx.strokeStyle=o.st?'#38d996':'#ff2bd6';gx.lineWidth=2;gx.beginPath();gx.roundRect(o.x,o.y,o.w,o.h,10);gx.fill();gx.stroke();gx.fillStyle='#fff';gx.fillText(o.t,o.x+o.w/2,o.y+o.h/2+1)});
  if(!g.on){g.bx=px;g.by=360}else{g.bx+=g.vx;g.by+=g.vy;
   if(g.bx<8||g.bx>712)g.vx=-g.vx;if(g.by<8)g.vy=Math.abs(g.vy);
   if(g.vy>0&&g.by>=360&&g.by<=380&&Math.abs(g.bx-px)<62){g.vy=-Math.min(7,Math.abs(g.vy)+.15);g.vx=(g.bx-px)/62*5;if(S.snd)nt(400,.05)}
@@ -726,7 +810,7 @@ GS.c=g=>{g.px+=(Math.max(60,Math.min(660,g.mx))-g.px)*.28;const px=g.px;let okc=
  g.T=g.T.filter(o=>{o.y+=o.v;o.w=gx.measureText(o.t).width+28;
   if(!g.lock&&o.y>350&&o.y<392&&Math.abs(o.x-px)<60+o.w/3){bq(o.x,o.y,10);if(o.ok)okc=1;else{g.hp--;sBad();toast('❌ این جواب غلط بود!')}return false}
   if(o.y>430){if(o.ok&&!g.lock)miss=1;return false}
-  gx.shadowColor='#8b6dff';gx.shadowBlur=12;gx.fillStyle='#2a1760';gx.strokeStyle='#b39bff';gx.lineWidth=2;gx.beginPath();gx.roundRect(o.x-o.w/2,o.y-19,o.w,38,19);gx.fill();gx.stroke();gx.shadowBlur=0;
+  gx.shadowColor='#ff2bd6';gx.shadowBlur=12;gx.fillStyle='rgba(10,14,26,.92)';gx.strokeStyle='#ff2bd6';gx.lineWidth=2;gx.beginPath();gx.roundRect(o.x-o.w/2,o.y-19,o.w,38,19);gx.fill();gx.stroke();gx.shadowBlur=0;
   gx.fillStyle='#fff';gx.fillText(o.t,o.x,o.y+1);return true});
  if(g.hp<=0)return arcEnd();
  if(okc&&!g.lock){g.lock=1;g.sc+=100;sOk();pop('+۱۰۰');g.T=[];setTimeout(()=>cNext(g),500)}
@@ -752,11 +836,81 @@ function jTap(g,p){if(g.busy||!g.C)return;
  else{g.hp--;sBad();setTimeout(()=>{if(AG!==g)return;if(g.hp<=0)return arcEnd();a.up=b.up=0;g.sel=[];g.busy=0},900)}}
 GS.j=g=>{if(!g.C)return;g.C.forEach(c=>{c.f+=((c.up||c.done?1:0)-c.f)*.22;const sx=Math.abs(Math.cos(c.f*Math.PI)),fr=c.f>.5;
  gx.save();gx.translate(c.x+c.w/2,c.y+c.h/2);gx.scale(Math.max(.02,sx),1);
- gx.fillStyle=fr?(c.done?'#0e3d2c':'#0d2a3a'):'#2a1450';gx.strokeStyle=fr?(c.done?'#38d996':'#00e5ff'):'#ff2bd6';gx.lineWidth=3;
+ gx.fillStyle=fr?(c.done?'#0e3d2c':'#0d2a3a'):'#12081c';gx.strokeStyle=fr?(c.done?'#38d996':'#00e5ff'):'#ff2bd6';gx.lineWidth=3;
  gx.beginPath();gx.roundRect(-c.w/2,-c.h/2,c.w,c.h,14);gx.fill();gx.stroke();gx.fillStyle='#fff';
  if(fr){gx.font=(c.t=='nm'?(MQ.matches?'800 24px':'800 19px'):(MQ.matches?'800 40px':'800 32px'))+' Vazirmatn,Tahoma,sans-serif';gx.fillText(c.l,0,2)}else{gx.font='34px sans-serif';gx.fillText('⚛️',0,2)}
  gx.restore()})};
 
+
+/* ---------- لیدربورد (۱۰ نفر برتر) ---------- */
+let LBD=null,AU=null,DB=null,CLM={},MYPID=null,AUTHREADY=false,FBFAIL=false;
+function push(){if(!LOCK||!DB||!AU||!S.id||S.id=='guest'||S.id!=MYPID)return;try{DB.ref('scores/'+S.id+'/'+DEV).set(S.score|0).then(()=>pull(1)).catch(()=>{})}catch(e){}}
+let pl=0;function pull(f){if(!LB_URL||(!f&&Date.now()-pl<4000))return;pl=Date.now();fetch(LB_URL+'/scores.json').then(r=>r.json()).then(d=>{LBD=d||{};drawLB()}).catch(()=>{})}
+function totals(){const T={};if(LB_URL){const d=LBD||{};for(const id in d){const v=d[id];T[id]=typeof v=='number'?v:Object.values(v||{}).reduce((a,b)=>a+(+b||0),0)}}else{for(const id in PF)if(id!='guest')T[id]=PF[id].score|0}return T}
+function lbRows(){const T=totals(),R=[];CLS.forEach((c,ci)=>c.s.forEach((n,i)=>{const id=pid(ci,i);R.push({id,n,c:ci,s:T[id]||0})}));
+ R.sort((a,b)=>b.s-a.s||a.n.localeCompare(b.n,'fa'));R.forEach((x,i)=>{x.r=(i&&R[i-1].s==x.s)?R[i-1].r:i+1});return R}
+function lbRow(x,me){const g=x.r<=3?' g'+x.r:'';return '<div class="lbrow'+g+(x.id==me?' me':'')+'"><span class="lbrk">'+(x.r<=3?['🥇','🥈','🥉'][x.r-1]:fa(x.r))+'</span><span class="lbnm">'+esc(x.n)+'<span class="lbcl">🏫 '+esc(CLS[x.c].n)+(x.id==me?' · تو':'')+'</span></span><span class="lbpt">⭐ '+fa(x.s)+'</span></div>'}
+function drawLB(){const box=$('lbs');if(!box)return;const R=lbRows().filter(x=>x.s>0),top=R.slice(0,10),me=S.id;
+ $('lbn').textContent=LB_URL?'🌐 امتیاز همه‌ی دستگاه‌ها · خودکار به‌روز می‌شود':'📴 حالت محلی: فقط امتیازهای همین دستگاه';
+ box.innerHTML=top.length?top.map(x=>lbRow(x,me)).join(''):'<p class="tip" style="text-align:center">هنوز کسی امتیازی نگرفته. اولین نفر تو باش! 🚀</p>';
+ let h='';if(!me||me=='guest')h='<p class="tip" style="text-align:center">👤 در حالت مهمان امتیازت در لیدربورد ثبت نمی‌شود.</p>';
+ else{const m=R.find(x=>x.id==me);if(!m)h='<p class="tip" style="text-align:center">هنوز امتیازی نگرفته‌ای؛ یک بازی کن تا وارد لیدربورد شوی!</p>';else if(!top.includes(m))h='<div class="lbsep">⋯</div>'+lbRow(m,me)}
+ $('lbme').innerHTML=h}
+function renderLB(){drawLB();pull()}
+function openLB(){$('lbov').classList.add('on');drawLB();pull(1)}
+$('lbBtn').onclick=openLB;$('ovl').onclick=openLB;$('lbx').onclick=()=>$('lbov').classList.remove('on');
+$('lbov').onclick=e=>{if(e.target==$('lbov'))$('lbov').classList.remove('on')};
+addEventListener('keydown',e=>{if(e.key=='Escape')$('lbov').classList.remove('on')});
+setInterval(()=>{if(!document.hidden&&$('lbov').classList.contains('on'))pull(1)},15000);
+
+/* ---------- ورود با گوگل و قفل‌کردن نام ---------- */
+function loadJS(u){return new Promise((ok,no)=>{const e=document.createElement('script');e.src=u;e.onload=ok;e.onerror=no;document.head.append(e)})}
+function initFB(){const B='https://www.gstatic.com/firebasejs/10.12.2/';
+ loadJS(B+'firebase-app-compat.js').then(()=>Promise.all([loadJS(B+'firebase-auth-compat.js'),loadJS(B+'firebase-database-compat.js')])).then(()=>{
+  firebase.initializeApp(FB);DB=firebase.database();
+  firebase.auth().getRedirectResult().catch(e=>toast('ورود ناموفق: '+(e.code||'')));
+  firebase.auth().onAuthStateChanged(u=>{AU=u;AUTHREADY=true;onAuth()})
+ }).catch(()=>{FBFAIL=true;AUTHREADY=true;gate('menu')})}
+function onAuth(){
+ if(!AU){MYPID=null;if(S.id&&S.id!='guest'){S=Object.assign({},DS);S.id='';whoLbl()}gate('menu');return}
+ DB.ref('users/'+AU.uid).once('value').then(s=>{const v=s.val();MYPID=v&&pinfo(v)?v:null;if(MYPID)finish(MYPID);else gate('cls')}).catch(()=>{toast('خطا در اتصال به پایگاه داده');gate('menu')})}
+function gLogin(){if(!DB)return;const p=new firebase.auth.GoogleAuthProvider();p.setCustomParameters({prompt:'select_account'});
+ firebase.auth().signInWithPopup(p).catch(e=>{const c=e.code||'';if(c=='auth/popup-blocked'||c=='auth/operation-not-supported-in-this-environment')firebase.auth().signInWithRedirect(p);else if(c!='auth/popup-closed-by-user'&&c!='auth/cancelled-popup-request')toast('ورود ناموفق: '+c)})}
+function gOut(){firebase.auth().signOut().catch(()=>{})}
+function claim(id){if(!AU||!DB)return;toast('⏳ در حال قفل‌کردن نام...');const u={};u['claims/'+id]={uid:AU.uid};u['users/'+AU.uid]=id;
+ DB.ref().update(u).then(()=>{MYPID=id;finish(id)}).catch(()=>{toast('❌ این اسم قبلاً برداشته شده یا خطایی رخ داد');gateLoad().then(()=>gate('st',pinfo(id).c))})}
+function gateLoad(){if(!LOCK)return Promise.resolve();return fetch(LB_URL+'/claims.json').then(r=>r.json()).then(d=>{CLM=d||{}}).catch(()=>{})}
+
+/* ---------- صفحه‌ی ورود ---------- */
+function whoLbl(){const p=pinfo(S.id);$('who').textContent=!p?'👤 —':S.id=='guest'?'👤 مهمان (بدون لیدربورد)':'👤 '+p.name+' · '+p.cls+(LOCK&&AU?' 🔒':'')}
+function finish(id){useProfile(id);whoLbl();$('gate').classList.remove('on');rmd();renderLB();push();go('home')}
+function gate(step,c,i){const G=$('gbox'),last=(()=>{try{return localStorage.getItem('as3id')}catch(e){}})();$('gate').classList.add('on');$('gate').scrollTop=0;
+ if(LOCK&&!AU&&step!='guest')step='menu';
+ if(step=='cls'){gateLoad();G.innerHTML='<h2>📚 کلاس خودت کدام است؟</h2><div class="gcls">'+CLS.map((x,k)=>'<button class="gb" data-a="st" data-c="'+k+'">🏫 '+esc(x.n)+'<br><small class="tip">'+fa(x.s.length)+' نفر</small></button>').join('')+'</div><button class="btn alt gback" data-a="menu">↩ بازگشت</button>';return}
+ if(step=='st'){G.innerHTML='<h2>🧑‍🎓 '+esc(CLS[c].n)+'</h2><p class="tip" style="text-align:center">'+(LOCK?'اسم خودت را انتخاب کن. اسم‌های قفل‌شده (🔒) قبلاً توسط یک اکانت گوگل برداشته شده‌اند.':'اسم خودت را انتخاب کن.')+'</p><input id="gq" placeholder="🔎 جست‌وجوی نام..."><div class="gst" id="gl"></div><button class="btn alt gback" data-a="cls">↩ انتخاب کلاس دیگر</button>';
+  const draw=()=>{if(!$('gq'))return;const q=$('gq').value.trim();$('gl').innerHTML=CLS[c].s.map((n,k)=>({n,k})).filter(x=>!q||x.n.includes(q)).map(x=>LOCK&&CLM[pid(c,x.k)]?'<button class="gb taken" data-a="taken"><small>🔒</small>'+esc(x.n)+'</button>':'<button class="gb" data-a="ok" data-c="'+c+'" data-i="'+x.k+'"><small>'+fa(x.k+1)+'</small>'+esc(x.n)+'</button>').join('')};draw();$('gq').oninput=draw;gateLoad().then(draw);return}
+ if(step=='ok'){const n=CLS[c].s[i];
+  if(LOCK){if(CLM[pid(c,i)]){gate('st',c);return}
+   G.innerHTML='<h2>🤔 تو «'+esc(n)+'» هستی؟</h2><p style="text-align:center">'+esc(CLS[c].n)+'</p><div class="gnote">🔒 <b>هشدار:</b> بعد از تأیید، این اسم <b>برای همیشه به همین اکانت گوگل قفل می‌شود</b>؛ کس دیگری نمی‌تواند آن را بردارد و خودت هم نمی‌توانی اسمت را عوض کنی. مطمئن شو اسم خودت را انتخاب کرده‌ای!</div><div class="btns"><button class="btn" data-a="claim" data-c="'+c+'" data-i="'+i+'">🔒 بله، قفلش کن</button><button class="btn alt" data-a="st" data-c="'+c+'">↩ انتخاب دیگر</button></div>';return}
+  G.innerHTML='<h2>🤔 تو «'+esc(n)+'» هستی؟</h2><p style="text-align:center">'+esc(CLS[c].n)+'</p><div class="gnote">🎁 <b>ممکن است برای رتبه‌های برتر جایزه در نظر گرفته شود!</b><br>اگر حساب <b>دوستت</b> را انتخاب کنی، امتیازی که کسب می‌کنی برای <b>او</b> جمع می‌شود.</div><div class="btns"><button class="btn" data-a="go" data-c="'+c+'" data-i="'+i+'">✅ بله، شروع کنیم</button><button class="btn alt" data-a="st" data-c="'+c+'">↩ انتخاب دیگر</button></div>';return}
+ if(step=='guest'){G.innerHTML='<h2>👋 ورود مهمان</h2><div class="gnote guest">🚫 در حالت مهمان، <b>امتیازت وارد لیدربورد نمی‌شود</b> و برای هیچ رتبه یا جایزه‌ای حساب نخواهد شد. فقط می‌توانی بازی کنی و تمرین کنی.</div><div class="btns"><button class="btn" data-a="gg">🎮 ادامه به‌عنوان مهمان</button><button class="btn alt" data-a="menu">↩ بازگشت</button></div>';return}
+ const head='<h1 style="font-size:2.2rem">اتم‌ساز</h1>';
+ if(LOCK){
+  if(!AUTHREADY){G.innerHTML=head+'<p class="sub" style="font-size:1.1rem">⏳ در حال اتصال...</p>';return}
+  if(FBFAIL){G.innerHTML=head+'<div class="gnote guest">⚠️ اتصال به سرویس گوگل برقرار نشد. اینترنت را چک کن و صفحه را دوباره باز کن، یا به‌عنوان مهمان بازی کن.</div><div class="btns" style="flex-direction:column;align-items:stretch"><button class="btn" onclick="location.reload()">🔄 تلاش دوباره</button><button class="btn alt" data-a="guest">👤 ورود به‌عنوان مهمان</button></div>';return}
+  if(!AU){G.innerHTML=head+'<p class="sub" style="font-size:1.1rem">برای ورود، با گوگل وارد شو 👇</p><div class="gnote">🔒 اسمت را که انتخاب کنی، <b>برای همیشه به همین اکانت گوگل قفل می‌شود</b> و هیچ‌کس دیگری نمی‌تواند آن را بردارد.<br>🏆 امتیازها در لیدربورد صفحه‌ی اول نمایش داده می‌شود و <b>ممکن است برای رتبه‌های بالا جایزه‌ای باشد</b>.</div><div class="btns" style="flex-direction:column;align-items:stretch"><button class="btn" data-a="glogin">🔐 ورود با گوگل</button><button class="btn alt" data-a="guest">👤 ورود به‌عنوان مهمان</button></div><p class="tip" style="text-align:center">📱 اگر سایت را داخل برنامه‌ی پیام‌رسان (تلگرام، بله، ایتا، اینستاگرام) باز کرده‌ای و ورود گوگل کار نکرد، لینک را در Chrome یا Safari باز کن.</p>';return}
+  const mp=MYPID&&pinfo(MYPID);
+  if(mp){G.innerHTML=head+'<p class="sub" style="font-size:1.1rem">🔒 اکانت تو به «'+esc(mp.name)+'» قفل شده است</p><div class="btns" style="flex-direction:column;align-items:stretch"><button class="btn" data-a="go" data-c="'+mp.c+'" data-i="'+mp.i+'">▶ ادامه با '+esc(mp.name)+'</button><button class="btn alt" data-a="gout">🚪 خروج از حساب گوگل</button></div>';return}
+  G.innerHTML=head+'<p class="sub" style="font-size:1.1rem">سلام '+esc(AU.displayName||'')+' 👋</p><div class="btns" style="flex-direction:column;align-items:stretch"><button class="btn" data-a="cls">🧑‍🎓 انتخاب کلاس و نام</button><button class="btn alt" data-a="gout">🚪 خروج از حساب گوگل</button></div>';return}
+ const lp=pinfo(last);
+ G.innerHTML=head+'<p class="sub" style="font-size:1.1rem">قبل از شروع بگو کی هستی 👇</p><div class="gnote">🏆 امتیازهای همه در لیدربورد صفحه‌ی اول نمایش داده می‌شود و <b>ممکن است برای رتبه‌های بالا جایزه‌ای باشد</b>.</div><div class="btns" style="flex-direction:column;align-items:stretch">'+(lp&&last!='guest'?'<button class="btn" data-a="go" data-c="'+lp.c+'" data-i="'+lp.i+'">▶ ادامه با '+esc(lp.name)+'</button>':'')+'<button class="btn '+(lp&&last!='guest'?'alt':'')+'" data-a="cls">🧑‍🎓 انتخاب کلاس و نام</button><button class="btn alt" data-a="guest">👤 ورود به‌عنوان مهمان</button></div>'}
+$('gate').onclick=e=>{const b=e.target.closest('[data-a]');if(!b)return;const a=b.dataset.a,c=+b.dataset.c,i=+b.dataset.i;
+ if(a=='cls'||a=='st'||a=='ok'||a=='guest')gate(a,c,i);else if(a=='menu'||a=='home')gate('menu');else if(a=='go')finish(pid(c,i));else if(a=='gg')finish('guest');
+ else if(a=='claim')claim(pid(c,i));else if(a=='glogin')gLogin();else if(a=='gout')gOut();else if(a=='taken')toast('🔒 این اسم قبلاً با یک اکانت گوگل دیگر قفل شده است')};
+$('acc').onclick=$('who').onclick=()=>{stopQ();stopG();gate('menu')};
+
+if(LOCK)initFB();
+gate('menu');
 rmd();go('home');
 </script>
 </body>
